@@ -1,0 +1,28 @@
+.video {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  font-weight: 400;
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color: #515256;
+  visibility: visible;
+  outline: none !important;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: baseline;
+  object-fit: cover;
+  transition: opacity 300ms linear;
+  opacity: 1;
+  min-width: auto;
+  min-height: auto;
+  width: 1910px;
+  height: auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition-duration: 0ms;
+}
