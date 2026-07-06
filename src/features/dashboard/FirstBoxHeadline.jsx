@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Button from '../../ui/Button';
 import ButtonGroup from '../../ui/ButtonGroup';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const StyledFirstBox = styled.div`
   display: grid;
@@ -28,6 +29,8 @@ const StyledHeader = styled.p`
   }
 `;
 function FirstBoxHeadline() {
+  const navigate = useNavigate();
+
   return (
     <StyledFirstBox>
       <StyledHeader>Газдинство Митровић</StyledHeader>
@@ -40,6 +43,7 @@ function FirstBoxHeadline() {
             border: 'solid 4px #1f1f1f',
             borderRadius: '8px',
           }}
+          onClick={() => navigate('/customersData')}
         >
           Наручи сад
         </Button>

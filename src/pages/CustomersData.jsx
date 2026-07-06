@@ -7,9 +7,10 @@ import Tbody from '../features/table/Tbody';
 import Tfoot from '../features/table/Tfoot';
 import { useQuery } from '@tanstack/react-query';
 import { getDeliveries } from '../services/apiDeliveries';
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import InputForm from '../features/table/tableUIs/InputForm';
 import styled from 'styled-components';
+import { show } from '../features/customer/customerSlice';
 
 const Container = styled.div`
   width: fit-content;
@@ -26,9 +27,7 @@ const Container = styled.div`
 
 function CustomersData() {
   const showInputForm = useSelector((state) => state.inputForm.showInputForm);
-
-  // const customers = useSelector((state) => state.customers.customers);
-  // console.log(customers);
+  show();
   const { data } = useQuery({
     queryKey: ['current_delivery'],
     queryFn: getDeliveries,
@@ -36,7 +35,7 @@ function CustomersData() {
 
   if (!data) return;
   const customers = [...data].sort(
-    (custA, custB) => custA.num_in_delivery - custB.num_in_delivery
+    (custA, custB) => custA.num_in_delivery - custB.num_in_delivery,
   );
   const numberOfCustomers = customers.length;
   return (
@@ -44,12 +43,12 @@ function CustomersData() {
       {showInputForm && <InputForm numberOfCustomers={numberOfCustomers} />}
       <Table>
         <Thead>
-          <Row type="head" />
+          <Row type='head' />
         </Thead>
         <Tbody>
           {customers.map((customer) => (
             <Row
-              type="body"
+              type='body'
               customer={customer}
               numOfDeliveries={customers.length}
               key={customer.customer_id}
@@ -57,7 +56,7 @@ function CustomersData() {
           ))}
         </Tbody>
         <Tfoot>
-          <Row type="foot" numOfDeliveries={customers.length} />
+          <Row type='foot' numOfDeliveries={customers.length} />
         </Tfoot>
       </Table>
     </Container>

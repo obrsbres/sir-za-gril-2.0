@@ -1,20 +1,24 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { show } from '../features/customer/customerSlice';
+import { show, hide } from '../features/customer/customerSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const StyledHeader = styled.header`
-  grid-column: 1/-1;
+  margin: 2rem 3rem 2rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 10fr;
+  gap: 2rem;
+  grid-template-rows: 1fr;
   width: 100vw;
   background-color: #f9f9f7;
   padding: 1rem;
   border-bottom: 1px solid var(--color-grey-100);
 `;
 const StyledButtonHeader = styled.button`
-  border: 2px solid var(--color-grey-900);
+  border: 3px solid var(--color-grey-900);
   border-radius: 30%;
   display: flex;
   padding: 5px;
@@ -30,18 +34,33 @@ const StyledButtonHeader = styled.button`
 `;
 
 function Header() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { info } = useParams();
+  const location = useLocation();
+  const pathName = location.pathname.split('/')[1];
+  const isSidebarShown = useSelector((state) => state.sidebar.showSidebar);
+  function handleToogleSidebar() {
+    if (isSidebarShown) {
+      dispatch(hide());
+    }
+    if (!isSidebarShown) {
+      dispatch(show());
+    }
+  }
 
-  const isSidebarShown = useSelector((state) => 
-    state.sidebar.showSidebar
-  );
+  console.log(info, pathName);
+  const linkedPage = pathName === 'dashboard' ? 'customersData' : 'dashboard';
   return (
     <StyledHeader>
-      {!isSidebarShown && (
-        <StyledButtonHeader onClick={() => dispatch(show())}>
-          <Link to="dashboard">Почетна</Link>
+      {pathName !== 'dashboard' && (
+        <StyledButtonHeader onClick={handleToogleSidebar}>
+          {`${isSidebarShown ? 'Скриј' : 'Прикажи'} Навигацију`}
         </StyledButtonHeader>
       )}
+      <StyledButtonHeader onClick={() => navigate(linkedPage)}>
+        {`${linkedPage === 'dashboard' ? 'Почетна' : 'Преглед доставе'}`}
+      </StyledButtonHeader>
     </StyledHeader>
   );
 }

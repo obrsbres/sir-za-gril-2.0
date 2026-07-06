@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
@@ -13,7 +12,7 @@ import { updateField } from '../../../services/apiDeliveries';
 
 import InputChangeValue from '../tableUIs/InputChangeValue';
 import { sendCustomerForDeliveryView } from '../../delivery/customersSlice';
-
+import { hide } from '../../customer/customerSlice';
 const StyledCell = styled.td`
   border-style: solid;
   border-width: 1px;
@@ -40,21 +39,22 @@ function CustNameCell({ name, id, customer }) {
     {
       mutationFn: () => {
         updateField('name', newValue, id);
-        setDisplayInputBox(false);
       },
       onSuccess: () => {
+        setDisplayInputBox(false);
         toast.success('Успешно промењено име купца');
       },
     },
     queryClient.invalidateQueries({
       queryKey: ['current_delivery'],
-    })
+    }),
   );
   useHotkey('esc', () => setDisplayInputBox(false), {
     conflictBehavior: 'allow',
   });
   function handleShowCustomer(customer) {
     dispatch(sendCustomerForDeliveryView(customer));
+    dispatch(hide());
   }
 
   return (
@@ -64,17 +64,17 @@ function CustNameCell({ name, id, customer }) {
       }}
     >
       <button onClick={() => handleShowCustomer(customer)}>
-        <Link to="/customer">🚙</Link>
+        <Link to='/customer'>🚙</Link>
       </button>
       {displayInputBox && !isPending ? (
         <InputChangeValue
           placeholder={name}
-          type="text"
+          type='text'
           onBlur={() => setDisplayInputBox(false)}
           onSubmit={() => {
             mutate(newValue, id);
           }}
-          cellWidth="20rem"
+          cellWidth='20rem'
         />
       ) : (
         name

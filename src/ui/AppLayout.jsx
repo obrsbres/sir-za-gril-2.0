@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import React from 'react';
 const StyledMain = styled.main`
@@ -19,19 +19,32 @@ const StyledAppLayout = styled.div`
   display: grid;
   height: 100vh;
   grid-template-columns: 26rem 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: 100vh;
+  /* position: relative; */
+`;
+const StyledContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  overflow: hidden;
+  height: 100vh;
 `;
 function AppLayout() {
-  const hideSidebar = useSelector((state) => state.sidebar.showSidebar);
-
+  const location = useLocation();
+  const pathName = location.pathname.split('/')[1];
+  const hideSidebar =
+    useSelector((state) => state.sidebar.showSidebar) &&
+    pathName !== 'dashboard';
   return (
-    <StyledAppLayout>
+    <StyledContainer>
       <Header />
-      {hideSidebar && <Sidebar />}
-      <StyledMain>
-        <Outlet />
-      </StyledMain>
-    </StyledAppLayout>
+      <StyledAppLayout>
+        {hideSidebar && <Sidebar />}
+        <StyledMain>
+          <Outlet />
+        </StyledMain>
+      </StyledAppLayout>
+    </StyledContainer>
   );
 }
 

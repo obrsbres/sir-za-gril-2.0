@@ -36,7 +36,7 @@ function Dashboard() {
 
   const displaySize = useSelector((state) => state.dashboard.displayWidth);
 
-  console.log(screenWidth, displaySize);
+  console.log(screenWidth, displaySize, isSidebarOn);
 
   isSidebarOn && dispatch(hide());
 
