@@ -8,9 +8,6 @@ const StyledTable = styled.table`
   justify-content: start;
   align-items: start;
   flex-direction: column;
-  background-color: var(--color-brand-100);
-  border: 1px solid var(--color-brand-600);
-  border-radius: 10px;
 `;
 import React from 'react';
 

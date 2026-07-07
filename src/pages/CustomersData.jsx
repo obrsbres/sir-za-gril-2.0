@@ -103,7 +103,7 @@ function CustomersData() {
             <Row type='foot' numOfDeliveries={customers.length} />
           </Tfoot>
         </Table>
-        <ImgSpining src='./../public/spinner.png' alt='spinning-cheese' />
+        <ImgSpining src='/spinner.png' alt='spinning-cheese' />
       </Container>
       <Container
         style={{
