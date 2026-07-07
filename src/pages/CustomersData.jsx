@@ -11,18 +11,61 @@ import { useSelector } from 'react-redux';
 import InputForm from '../features/table/tableUIs/InputForm';
 import styled from 'styled-components';
 import { show } from '../features/customer/customerSlice';
+import { tableExplanation } from '../utils/tableExplanation';
 
 const Container = styled.div`
-  width: fit-content;
+  background-color: var(--color-brand-100);
+  border: 1px solid var(--color-brand-600);
+  border-radius: 10px;
+  margin: 2rem 4rem 2rem 4rem;
+  width: 90vw;
   height: auto;
-  padding-left: 4rem;
-  padding-top: 2rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 10fr;
-  justify-content: start;
-  align-items: start;
+  padding: 2rem 4rem 2rem 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+const ImgBox = styled.div`
+  background-color: var(--color-brand-100);
+  display: flex;
+  justify-content: center;
+  align-items: space-evenly;
   flex-direction: column;
+  width: fill-available;
+  height: fill-available;
+`;
+
+const ImgSpining = styled.img`
+  width: 200px;
+  height: 200px;
+  /* Applies the custom keyframe animation */
+  animation: spin 5s linear infinite;
+
+  /* Defines the rotation sequence */
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
+const TextBox = styled.div`
+  width: 80vw;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  text-align: center;
+  background-color: var(--color-yellow-100);
+  border: 1px solid var(--color-yellow-700);
+  border-radius: 10px;
+  gap: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
 `;
 
 function CustomersData() {
@@ -39,27 +82,38 @@ function CustomersData() {
   );
   const numberOfCustomers = customers.length;
   return (
-    <Container>
-      {showInputForm && <InputForm numberOfCustomers={numberOfCustomers} />}
-      <Table>
-        <Thead>
-          <Row type='head' />
-        </Thead>
-        <Tbody>
-          {customers.map((customer) => (
-            <Row
-              type='body'
-              customer={customer}
-              numOfDeliveries={customers.length}
-              key={customer.customer_id}
-            />
-          ))}
-        </Tbody>
-        <Tfoot>
-          <Row type='foot' numOfDeliveries={customers.length} />
-        </Tfoot>
-      </Table>
-    </Container>
+    <>
+      <Container>
+        {showInputForm && <InputForm numberOfCustomers={numberOfCustomers} />}
+        <Table>
+          <Thead>
+            <Row type='head' />
+          </Thead>
+          <Tbody>
+            {customers.map((customer) => (
+              <Row
+                type='body'
+                customer={customer}
+                numOfDeliveries={customers.length}
+                key={customer.customer_id}
+              />
+            ))}
+          </Tbody>
+          <Tfoot>
+            <Row type='foot' numOfDeliveries={customers.length} />
+          </Tfoot>
+        </Table>
+        <ImgSpining src='./../public/spinner.png' alt='spinning-cheese' />
+      </Container>
+      <Container
+        style={{
+          marginTop: '2rem',
+          backgroundColor: 'var(--color-indigo-100)',
+        }}
+      >
+        <TextBox>{tableExplanation}</TextBox>
+      </Container>
+    </>
   );
 }
 

@@ -15,11 +15,12 @@ const StyledMain = styled.main`
 `;
 const StyledAppLayout = styled.div`
   /* padding: 2px; */
-  /* margin: 2px; */
+  margin: 2px;
   display: grid;
   height: 100vh;
   grid-template-columns: 26rem 1fr;
   grid-template-rows: 100vh;
+  width: fill-available;
   /* position: relative; */
 `;
 const StyledContainer = styled.div`
@@ -28,6 +29,7 @@ const StyledContainer = styled.div`
   grid-template-rows: 1fr 1fr;
   overflow: hidden;
   height: 100vh;
+  width: 95%;
 `;
 function AppLayout() {
   const location = useLocation();
