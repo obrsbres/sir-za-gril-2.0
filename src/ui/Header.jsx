@@ -7,21 +7,21 @@ import { show, hide } from '../features/customer/customerSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const StyledHeader = styled.header`
-  margin: 2rem 3rem 2rem 3rem;
+  margin: 1rem 1% 1rem 1%;
   display: grid;
   grid-template-columns: 1fr 1fr 10fr;
-  gap: 2rem;
   grid-template-rows: 1fr;
-  width: 100vw;
-  background-color: #f9f9f7;
+  gap: 2rem;
+  width: 98%;
+  background-color: var(--color-yellow-100);
   padding: 1rem;
   border-bottom: 1px solid var(--color-grey-100);
 `;
 const StyledButtonHeader = styled.button`
   border: 3px solid var(--color-grey-900);
-  border-radius: 30%;
+  border-radius: 10%;
   display: flex;
-  padding: 5px;
+  padding: 2px;
   justify-content: space-evenly;
   align-items: center;
   font-size: 1.6rem;
@@ -29,7 +29,7 @@ const StyledButtonHeader = styled.button`
   text-transform: uppercase;
   color: #1f1f1f;
   background-color: #d6def3;
-  height: 100%;
+  height: 4rem;
   flex-wrap: wrap;
 `;
 
@@ -55,7 +55,7 @@ function Header() {
     <StyledHeader>
       {pathName !== 'dashboard' && (
         <StyledButtonHeader onClick={handleToogleSidebar}>
-          {`${isSidebarShown ? 'Скриј' : 'Прикажи'} Навигацију`}
+          {`${isSidebarShown ? 'Скриј' : 'Прикажи'} мени`}
         </StyledButtonHeader>
       )}
       <StyledButtonHeader onClick={() => navigate(linkedPage)}>

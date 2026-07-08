@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
-/* eslint-disable react/prop-types */
+
 const StyledLogo = styled.div`
   text-align: center;
 `;

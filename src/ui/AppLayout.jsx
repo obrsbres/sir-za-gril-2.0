@@ -1,36 +1,39 @@
-import styled from 'styled-components';
-import Header from './Header';
-import Sidebar from './Sidebar';
+import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import React from 'react';
-const StyledMain = styled.main`
-  background-color: var(--color-grey-50);
-  /* padding: 1rem 1.2rem 2rem; */
-  /* background-image: url('/bg/main-bg.jpg');
-  background-size: 100% auto; /* Adjust as needed: 'contain', '100% 100%', etc. */
-  position: sticky;
-  width: auto; /* Example: Set dimensions */
-  height: auto; /* Example: Set dimensions */
+
+import styled from 'styled-components';
+
+import Header from './Header';
+import Sidebar from './Sidebar';
+
+const StyledContainer = styled.div`
+  display: grid;
+  justify-items: start;
+  align-items: start;
+  justify-content: start;
+  align-content: start;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 10fr;
+  overflow: auto;
+  height: 100vh;
+  width: 100vw;
 `;
+
 const StyledAppLayout = styled.div`
-  /* padding: 2px; */
-  margin: 2px;
   display: grid;
   height: 100vh;
   grid-template-columns: 26rem 1fr;
   grid-template-rows: 100vh;
-  width: fill-available;
-  /* position: relative; */
 `;
-const StyledContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr;
-  overflow: hidden;
-  height: 100vh;
-  width: 95%;
+
+const StyledMain = styled.main`
+  background-color: var(--color-grey-50);
+  position: sticky;
+  width: auto;
+  height: auto;
 `;
+
 function AppLayout() {
   const location = useLocation();
   const pathName = location.pathname.split('/')[1];
