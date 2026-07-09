@@ -11,10 +11,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const StyledHeadRow = styled.tr`
   width: fit-content;
-  font-size: 1.3rem;
+  font-size: ${(props) => (props.$pageSize === 'mobile' ? '1rem' : '1.6rem')};
   font-weight: bold;
   display: grid;
-  grid-template-columns: 3rem 20rem 8rem 8rem 7rem 15rem 11rem 10rem 20rem 6rem 3rem;
+  grid-template-columns: ${(props) =>
+    props.$pageSize === 'mobile'
+      ? '2rem 14rem 6rem 6rem 5rem'
+      : '3rem 20rem 8rem 8rem 7rem 15rem 11rem 10rem 20rem 6rem 3rem'};
   grid-template-rows: 4rem;
   background-color: var(--color-silver-700);
   color: var(--color-silver-100);
@@ -46,9 +49,10 @@ function HeadRow() {
     },
     onError: (err) => alert(err.message),
   });
-
+  const pageSize = useSelector((state) => state.sidebar.pageSize);
+  const isNotMobile = pageSize !== 'mobile';
   return (
-    <StyledHeadRow>
+    <StyledHeadRow $pageSize={pageSize}>
       <StyledHeadCell>РБ</StyledHeadCell>
       <StyledHeadCell>КУПАЦ</StyledHeadCell>
       <StyledHeadCell>
@@ -60,21 +64,23 @@ function HeadRow() {
         <p>КОЛ | ПАК</p>
       </StyledHeadCell>
       <StyledHeadCell>УВАРА</StyledHeadCell>
-      <StyledHeadCell>АДРЕСА</StyledHeadCell>
-      <StyledHeadCell>ТЕЛЕФОН</StyledHeadCell>
-      <StyledHeadCell>ВРЕМЕ</StyledHeadCell>
-      <StyledHeadCell>НАП.</StyledHeadCell>
-      <StyledHeadCell>ЦЕНА</StyledHeadCell>
-      <StyledHeadCell>
-        <NewRowButton
-          disabled={isInserting}
-          onClick={() => {
-            dispatch(show());
-          }}
-        >
-          +
-        </NewRowButton>
-      </StyledHeadCell>
+      {isNotMobile && <StyledHeadCell>АДРЕСА</StyledHeadCell>}
+      {isNotMobile && <StyledHeadCell>ТЕЛЕФОН</StyledHeadCell>}
+      {isNotMobile && <StyledHeadCell>ВРЕМЕ</StyledHeadCell>}
+      {isNotMobile && <StyledHeadCell>НАП.</StyledHeadCell>}
+      {isNotMobile && <StyledHeadCell>ЦЕНА</StyledHeadCell>}
+      {isNotMobile && (
+        <StyledHeadCell>
+          <NewRowButton
+            disabled={isInserting}
+            onClick={() => {
+              dispatch(show());
+            }}
+          >
+            +
+          </NewRowButton>
+        </StyledHeadCell>
+      )}
     </StyledHeadRow>
   );
 }

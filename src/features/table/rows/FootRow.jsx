@@ -9,7 +9,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
 const StyledFootRow = styled.tr`
-  width: 111rem;
+  width: ${(props) => (props.$pageSize === 'mobile' ? '33rem' : '111rem')};
   height: auto;
   font-size: 1.3rem;
   font-weight: bold;
@@ -18,7 +18,7 @@ const StyledFootRow = styled.tr`
   grid-template-columns: 1fr 1fr 3rem;
   grid-template-rows: 4rem;
   justify-content: center;
-  align-items: left;
+  align-items: center;
 
   background-color: var(--color-silver-700);
   color: var(--color-silver-100);
@@ -38,21 +38,24 @@ function FootRow() {
     },
     queryClient.invalidateQueries({
       queryKey: ['current_delivery'],
-    })
+    }),
   );
-
+  const pageSize = useSelector((state) => state.sidebar.pageSize);
+  const isNotMobile = pageSize !== 'mobile';
   return (
-    <StyledFootRow>
+    <StyledFootRow $pageSize={pageSize}>
       <td>Укупно локација {data.length}</td>
       <td>Планирано време #тиме#</td>
-      <StyledHeadCell>
-        <NewRowButton
-          disabled={isInserting}
-          onClick={() => mutate(numOfDeliveries)}
-        >
-          +
-        </NewRowButton>
-      </StyledHeadCell>
+      {isNotMobile && (
+        <StyledHeadCell>
+          <NewRowButton
+            disabled={isInserting}
+            onClick={() => mutate(numOfDeliveries)}
+          >
+            +
+          </NewRowButton>
+        </StyledHeadCell>
+      )}
     </StyledFootRow>
   );
 }

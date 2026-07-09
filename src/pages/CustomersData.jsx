@@ -16,11 +16,13 @@ import { tableExplanation } from '../utils/tableExplanation';
 const Container = styled.div`
   background-color: var(--color-brand-100);
   border: 1px solid var(--color-brand-600);
-  border-radius: 10px;
-  margin: 2rem 4rem 2rem 4rem;
+  border-radius: 4px;
+  margin: ${(props) =>
+    props.$pageSize === 'mobile' ? '1px 1px 1px ' : '4rem 2rem 4rem'};
   width: 90vw;
   height: auto;
-  padding: 2rem 4rem 2rem 4rem;
+  padding: ${(props) =>
+    props.$pageSize === 'mobile' ? '1px 1px 1px ' : '4rem 2rem 4rem'};
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -54,9 +56,12 @@ const ImgSpining = styled.img`
 `;
 
 const TextBox = styled.div`
-  width: 80vw;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  width: ${(props) => (props.$pageSize === 'mobile' ? '100vw' : '80vw')};
+  margin: ${(props) =>
+    props.$pageSize === 'mobile' ? '1px 1px 1px ' : '4rem 2rem 4rem'};
+  padding: ${(props) =>
+    props.$pageSize === 'mobile' ? '1px 1px 1px ' : '4rem 2rem 4rem'};
+
   text-align: center;
   background-color: var(--color-yellow-100);
   border: 1px solid var(--color-yellow-700);
@@ -69,6 +74,8 @@ const TextBox = styled.div`
 `;
 
 function CustomersData() {
+  const pageSize = useSelector((state) => state.sidebar.pageSize);
+  const isNotMobile = pageSize !== 'mobile';
   const showInputForm = useSelector((state) => state.inputForm.showInputForm);
   show();
   const { data } = useQuery({
@@ -83,7 +90,7 @@ function CustomersData() {
   const numberOfCustomers = customers.length;
   return (
     <>
-      <Container>
+      <Container $pageSize={pageSize}>
         {showInputForm && <InputForm numberOfCustomers={numberOfCustomers} />}
         <Table>
           <Thead>
@@ -103,7 +110,7 @@ function CustomersData() {
             <Row type='foot' numOfDeliveries={customers.length} />
           </Tfoot>
         </Table>
-        <ImgSpining src='/spinner.png' alt='spinning-cheese' />
+        {isNotMobile && <ImgSpining src='/spinner.png' alt='spinning-cheese' />}
       </Container>
       <Container
         style={{
@@ -111,7 +118,7 @@ function CustomersData() {
           backgroundColor: 'var(--color-indigo-100)',
         }}
       >
-        <TextBox>{tableExplanation}</TextBox>
+        <TextBox $pageSize={pageSize}>{tableExplanation}</TextBox>
       </Container>
     </>
   );
