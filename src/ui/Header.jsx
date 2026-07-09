@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const StyledHeader = styled.header`
   margin: 1rem 1% 1rem 1%;
   display: grid;
-  grid-template-columns: 1fr 1fr 10fr;
+  grid-template-columns: 15rem 15rem 1fr;
   grid-template-rows: 1fr;
   gap: 2rem;
   width: 98%;
@@ -18,8 +18,8 @@ const StyledHeader = styled.header`
   border-bottom: 1px solid var(--color-grey-100);
 `;
 const StyledButtonHeader = styled.button`
-  border: 3px solid var(--color-grey-900);
-  border-radius: 10%;
+  border: 2px solid var(--color-grey-900);
+  border-radius: 8px;
   display: flex;
   padding: 2px;
   justify-content: space-evenly;
