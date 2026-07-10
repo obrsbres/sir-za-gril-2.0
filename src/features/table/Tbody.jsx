@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
-/* eslint-disable react/prop-types */
+
 const StyledTBody = styled.tbody`
   height: fit-content;
   align-self: stretch;

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
 import { useForm } from 'react-hook-form';
@@ -15,6 +14,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
 const Container = styled.div`
+  height: 7rem;
   display: grid;
   grid-template-columns: 0.5 fr;
   grid-template-rows: 0.5 1fr;
@@ -32,9 +32,8 @@ const StyledInputFormRow = styled.form`
   grid-template-rows: 1rem;
   color: var(--color-blue-700);
   background-color: var(--color-red-100);
-  border: 2px solid var(--color-red-700);
+  border: 1px solid var(--color-red-700);
   position: relative;
-  /* margin-top: 20px; */
 `;
 const StyledInputFormCell = styled.input`
   height: 1.5 rem;
@@ -65,13 +64,16 @@ const Label = styled.label`
   border-bottom: 1px solid var(--color-red-700);
   border-radius: 3px;
   background-color: var(--color-blue-100);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 function InputForm({ numberOfCustomers }) {
   const { register, handleSubmit, formState, reset } = useForm();
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
-  useState({});
+
   function onSubmit(data) {
     mutate(data);
     reset();
@@ -80,14 +82,13 @@ function InputForm({ numberOfCustomers }) {
   const { mutate } = useMutation(
     {
       mutationFn: (data) => {
-       
         insertRow(numberOfCustomers, data);
       },
       onSuccess: () => toast.success('Успешно додат купац'),
     },
     queryClient.invalidateQueries({
       queryKey: ['current_delivery'],
-    }),
+    })
   );
 
   function onError(errors) {
@@ -111,43 +112,55 @@ function InputForm({ numberOfCustomers }) {
       {errors?.note?.message && <Error>{errors.note.message}</Error>}
       {errors?.price?.message && <Error>{errors.price.message}</Error>}
       <StyledInputFormRow onSubmit={handleSubmit(onSubmit, onError)}>
-        <Label htmlFor='id'>рб</Label>
-        <Label htmlFor='name'>Име и презиме</Label>
-        <Label htmlFor='gril'>Грил</Label>
-        <Label htmlFor='trad'>Ситан</Label>
-        <Label htmlFor='cream'>Увара</Label>
-        <Label htmlFor='add'>Адреса</Label>
-        <Label htmlFor='tel'>Телефон</Label>
-        <Label htmlFor='time'>Време</Label>
-        <Label htmlFor='note'>Напомена</Label>
-        <Label htmlFor='price'>Цена</Label>
-        <Label htmlFor='button'>+</Label>
+        <Label htmlFor="id">рб</Label>
+        <Label htmlFor="name">Име и презиме</Label>
+        <Label htmlFor="gril">Грил</Label>
+        <Label htmlFor="trad">Ситан</Label>
+        <Label htmlFor="cream">Увара</Label>
+        <Label htmlFor="add">Адреса</Label>
+        <Label htmlFor="tel">Телефон</Label>
+        <Label htmlFor="time">Време</Label>
+        <Label htmlFor="note">Напомена</Label>
+        <Label htmlFor="price">Цена</Label>
+        <Label htmlFor="button">
+          <div
+            style={{
+              display: 'flex',
+              width: '3rem',
+              alignSelf: 'center',
+              justifyContent: 'center',
+            }}
+            onClick={() => dispatch(hide())}
+          >
+            ❌;
+          </div>
+        </Label>
         <StyledInputFormCell
-          key='id'
-          id='id'
-          type='number'
+          key="id"
+          id="id"
+          type="number"
           {...register('id')}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id='name'
-          key='name'
-          type='text'
+          id="name"
+          key="name"
+          type="text"
           {...register('name', {
             required: 'Име је обавезно',
           })}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id='gril'
-          key='gril'
-          type='number'
+          id="gril"
+          key="gril"
+          type="number"
           {...register('gril', {
             min: { value: 0, message: 'Количина грила не може бити негативна' },
           })}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id='trad'
-          key='trad'
-          type='number'
+          id="trad"
+          key="trad"
+          type="number"
           {...register('trad', {
             min: {
               value: 0,
@@ -156,24 +169,24 @@ function InputForm({ numberOfCustomers }) {
           })}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id='cream'
-          key='cream'
-          type='number'
+          id="cream"
+          key="cream"
+          type="number"
           {...register('cream', {
             min: { value: 0, message: 'Количина уваре не може бити негативна' },
           })}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id='add'
-          key='add'
-          type='text'
+          id="add"
+          key="add"
+          type="text"
           {...register('add', { required: 'Адеса је обавезна' })}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id='tel'
-          placeholder='06xxxxxxxx'
-          key='tel'
-          type='telephone'
+          id="tel"
+          placeholder="06xxxxxxxx"
+          key="tel"
+          type="telephone"
           {...register('tel', {
             required: 'Обавезан телефон',
             pattern: {
@@ -184,25 +197,25 @@ function InputForm({ numberOfCustomers }) {
           })}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id='time'
-          key='time'
-          type='time'
+          id="time"
+          key="time"
+          type="time"
           {...register('time')}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id='note'
-          key='note'
-          type='text'
+          id="note"
+          key="note"
+          type="text"
           {...register('note')}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id='price'
-          key='price'
-          type='number'
+          id="price"
+          key="price"
+          type="number"
           {...register('price')}
         ></StyledInputFormCell>
         <NewRowButton
-          type='submit'
+          type="submit"
           // onClick={(e) => {
           //   e.preventDefault();
           //   handleSubmit(onSubmit);

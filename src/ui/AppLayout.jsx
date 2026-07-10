@@ -9,6 +9,14 @@ import Sidebar from './Sidebar';
 
 import useScreenWidth from '../hooks/useScreenWidth';
 
+const StyledAppLayout = styled.div`
+  display: flex;
+  height: fill-available;
+  width: fill-available;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+`;
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -17,13 +25,6 @@ const StyledContainer = styled.div`
   overflow: auto;
   height: 100vh;
   width: 100vw;
-`;
-
-const StyledAppLayout = styled.div`
-  display: flex;
-  height: fill-available;
-  width: fill-available;
-  flex-direction: row;
 `;
 
 const StyledMain = styled.main`

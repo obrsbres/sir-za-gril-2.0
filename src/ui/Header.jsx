@@ -7,7 +7,7 @@ import { show, hide } from '../features/customer/customerSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const StyledHeader = styled.header`
-  margin: 1rem 1% 1rem 1%;
+  margin: 2px 1px 2px 1px;
   display: grid;
   grid-template-columns: 15rem 15rem 1fr;
   grid-template-rows: 1fr;
@@ -18,10 +18,10 @@ const StyledHeader = styled.header`
   align-items: center;
   background-color: var(--color-yellow-100);
   /* padding: 1rem; */
-  border-bottom: 1px solid var(--color-grey-100);
+  /* border-bottom: 1px solid var(--color-green-700); */
 `;
 const StyledButtonHeader = styled.button`
-  border: 2px solid var(--color-grey-900);
+  border: 1px solid var(--color-indigo-700);
   border-radius: 8px;
   display: flex;
   justify-content: space-evenly;
@@ -30,8 +30,9 @@ const StyledButtonHeader = styled.button`
   font-weight: bolder;
   text-transform: uppercase;
   color: #1f1f1f;
-  background-color: #d6def3;
-  height: 4rem;
+  background-color: var(--color-indigo-700);
+  color: var(--color-indigo-100);
+  height: 4vh;
   flex-wrap: wrap;
 `;
 

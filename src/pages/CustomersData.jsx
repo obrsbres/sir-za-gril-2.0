@@ -18,23 +18,22 @@ const StyledCustomerData = styled.div`
   height: 94vh;
   width: fill-available;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
+  align-items: flex-start;
+  justify-content: flex-start;
 `;
 const Container = styled.div`
   background-color: var(--color-brand-100);
   border: 1px solid var(--color-brand-600);
   border-radius: 4px;
   margin: ${(props) =>
-    props.$pageSize === 'mobile' ? '1px 1px 1px ' : '4rem 2rem 4rem'};
-  width: fill-available;
+    props.$pageSize === 'mobile' ? '1px 1px 1px ' : '1rem 0.5rem 1rem'};
+  width: fit-content;
   height: auto;
-  /* padding: ${(props) =>
-    props.$pageSize === 'mobile'
-      ? '1rem 0.5rem 1rem 0.5rem'
-      : '4rem 2rem 4rem'}; */
-  display: flex;
-  flex-direction: row;
+  display: ${(props) =>
+    props.$pageSize === 'mobile' || !props.children.length ? 'flex' : 'grid'};
+  flex-direction: column;
+  grid-template-columns: 1fr 30rem;
+  grid-template-rows: auto auto;
   justify-content: space-evenly;
   align-items: space-evenly;
 `;
@@ -49,12 +48,13 @@ const ImgBox = styled.div`
 `;
 
 const ImgSpining = styled.img`
+  grid-row: 1/-1;
+  grid-column: 2;
+  align-self: center;
+  justify-self: center;
   width: 200px;
   height: 200px;
-  /* Applies the custom keyframe animation */
   animation: spin 5s linear infinite;
-
-  /* Defines the rotation sequence */
   @keyframes spin {
     from {
       transform: rotate(0deg);
@@ -66,10 +66,9 @@ const ImgSpining = styled.img`
 `;
 
 const TextBox = styled.div`
-  width: ${(props) =>
-    props.$pageSize === 'mobile' ? 'fill-available' : '80vw'};
-  margin: ${(props) =>
-    props.$pageSize === 'mobile' ? '1px 1px 1px ' : '4rem 2rem 4rem'};
+  width: ${(props) => (props.$pageSize === 'mobile' ? '37rem' : '141rem')};
+  /* margin: ${(props) =>
+    props.$pageSize === 'mobile' ? '1px 1px 1px ' : '4rem 2rem 4rem'}; */
   padding: ${(props) =>
     props.$pageSize === 'mobile' ? '1px 1px 1px ' : '4rem 2rem 4rem'};
   text-align: center;
@@ -78,12 +77,10 @@ const TextBox = styled.div`
   border-radius: 6px;
   font-size: 1.5rem;
   font-weight: bold;
-  justify-content: start;
-  align-items: start;
 `;
 const P = styled.p`
-  padding: 2px 4px 2px 4px;
-  margin: 2px 4px 2px 4px;
+  padding: 2px 4px 2px 0px;
+  margin: 2px 4px 2px 0px;
 `;
 
 function CustomersData() {
@@ -105,9 +102,12 @@ function CustomersData() {
     <StyledCustomerData>
       <Container $pageSize={pageSize}>
         {showInputForm && isNotMobile && (
-          <InputForm numberOfCustomers={numberOfCustomers} />
+          <InputForm
+            style={{ gridRow: 1, gridColumn: 1 }}
+            numberOfCustomers={numberOfCustomers}
+          />
         )}
-        <Table>
+        <Table style={{ gridRow: 2, gridColumn: 1 }}>
           <Thead>
             <Row type="head" />
           </Thead>
