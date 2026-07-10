@@ -20,6 +20,7 @@ import PriceCell from '../cells/PriceCell';
 import { removeRow } from '../../../services/apiDeliveries';
 import RemoveRowButton from '../tableUIs/RemoveRowButton';
 import RemoveButtonCell from '../cells/RemoveButtonCell';
+import useScreenWidth from '../../../hooks/useScreenWidth';
 
 const StyledBodyRow = styled.tr`
   width: fit-content;
@@ -27,7 +28,7 @@ const StyledBodyRow = styled.tr`
   display: grid;
   grid-template-columns: ${(props) =>
     props.$pageSize === 'mobile'
-      ? '2rem 14rem 6rem 6rem 5rem'
+      ? '2rem 14rem 8rem 8rem 5rem'
       : '3rem 20rem 8rem 8rem 7rem 15rem 11rem 10rem 20rem 6rem 3rem'};
   grid-template-rows: 4rem;
   color: var(--color-silver-700);
@@ -35,6 +36,8 @@ const StyledBodyRow = styled.tr`
 `;
 
 function BodyRow({ customer }) {
+  const queryClient = useQueryClient();
+
   const {
     customer_id: id,
     num_in_delivery: numInDelivery,
@@ -51,8 +54,7 @@ function BodyRow({ customer }) {
     time_for_delivery: timeForDelivery,
     bill: price,
   } = { ...customer };
-  const pageSize = useSelector((state) => state.sidebar.pageSize);
-  const queryClient = useQueryClient();
+
   const { isPending: isRemoving, mutate } = useMutation({
     mutationFn: (id) => removeRow(id),
     onSuccess: () => {
@@ -63,7 +65,10 @@ function BodyRow({ customer }) {
     },
     onError: (err) => toast.error(err.message),
   });
+
+  const pageSize = useScreenWidth();
   const isNotMobile = pageSize !== 'mobile';
+
   return (
     <>
       <StyledBodyRow $pageSize={pageSize}>

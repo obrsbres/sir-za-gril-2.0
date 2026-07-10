@@ -7,9 +7,10 @@ import { getDeliveries, insertRow } from '../../../services/apiDeliveries';
 import { useSelector } from 'react-redux';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import useScreenWidth from '../../../hooks/useScreenWidth';
 
 const StyledFootRow = styled.tr`
-  width: ${(props) => (props.$pageSize === 'mobile' ? '33rem' : '111rem')};
+  width: ${(props) => (props.$pageSize === 'mobile' ? '37rem' : '111rem')};
   height: auto;
   font-size: 1.3rem;
   font-weight: bold;
@@ -38,9 +39,9 @@ function FootRow() {
     },
     queryClient.invalidateQueries({
       queryKey: ['current_delivery'],
-    }),
+    })
   );
-  const pageSize = useSelector((state) => state.sidebar.pageSize);
+  const pageSize = useScreenWidth();
   const isNotMobile = pageSize !== 'mobile';
   return (
     <StyledFootRow $pageSize={pageSize}>

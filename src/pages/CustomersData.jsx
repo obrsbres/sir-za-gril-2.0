@@ -12,21 +12,31 @@ import InputForm from '../features/table/tableUIs/InputForm';
 import styled from 'styled-components';
 import { show } from '../features/customer/customerSlice';
 import { tableExplanation } from '../utils/tableExplanation';
-
+import useScreenWidth from '../hooks/useScreenWidth';
+const StyledCustomerData = styled.div`
+  display: flex;
+  height: 94vh;
+  width: fill-available;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+`;
 const Container = styled.div`
   background-color: var(--color-brand-100);
   border: 1px solid var(--color-brand-600);
   border-radius: 4px;
   margin: ${(props) =>
     props.$pageSize === 'mobile' ? '1px 1px 1px ' : '4rem 2rem 4rem'};
-  width: 90vw;
+  width: fill-available;
   height: auto;
-  padding: ${(props) =>
-    props.$pageSize === 'mobile' ? '1px 1px 1px ' : '4rem 2rem 4rem'};
+  /* padding: ${(props) =>
+    props.$pageSize === 'mobile'
+      ? '1rem 0.5rem 1rem 0.5rem'
+      : '4rem 2rem 4rem'}; */
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  align-items: center;
+  align-items: space-evenly;
 `;
 const ImgBox = styled.div`
   background-color: var(--color-brand-100);
@@ -56,25 +66,28 @@ const ImgSpining = styled.img`
 `;
 
 const TextBox = styled.div`
-  width: ${(props) => (props.$pageSize === 'mobile' ? '100vw' : '80vw')};
+  width: ${(props) =>
+    props.$pageSize === 'mobile' ? 'fill-available' : '80vw'};
   margin: ${(props) =>
     props.$pageSize === 'mobile' ? '1px 1px 1px ' : '4rem 2rem 4rem'};
   padding: ${(props) =>
     props.$pageSize === 'mobile' ? '1px 1px 1px ' : '4rem 2rem 4rem'};
-
   text-align: center;
   background-color: var(--color-yellow-100);
   border: 1px solid var(--color-yellow-700);
-  border-radius: 10px;
-  gap: 1rem;
+  border-radius: 6px;
   font-size: 1.5rem;
   font-weight: bold;
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
+  align-items: start;
+`;
+const P = styled.p`
+  padding: 2px 4px 2px 4px;
+  margin: 2px 4px 2px 4px;
 `;
 
 function CustomersData() {
-  const pageSize = useSelector((state) => state.sidebar.pageSize);
+  const pageSize = useScreenWidth();
   const isNotMobile = pageSize !== 'mobile';
   const showInputForm = useSelector((state) => state.inputForm.showInputForm);
   show();
@@ -85,21 +98,23 @@ function CustomersData() {
 
   if (!data) return;
   const customers = [...data].sort(
-    (custA, custB) => custA.num_in_delivery - custB.num_in_delivery,
+    (custA, custB) => custA.num_in_delivery - custB.num_in_delivery
   );
   const numberOfCustomers = customers.length;
   return (
-    <>
+    <StyledCustomerData>
       <Container $pageSize={pageSize}>
-        {showInputForm && <InputForm numberOfCustomers={numberOfCustomers} />}
+        {showInputForm && isNotMobile && (
+          <InputForm numberOfCustomers={numberOfCustomers} />
+        )}
         <Table>
           <Thead>
-            <Row type='head' />
+            <Row type="head" />
           </Thead>
           <Tbody>
             {customers.map((customer) => (
               <Row
-                type='body'
+                type="body"
                 customer={customer}
                 numOfDeliveries={customers.length}
                 key={customer.customer_id}
@@ -107,20 +122,21 @@ function CustomersData() {
             ))}
           </Tbody>
           <Tfoot>
-            <Row type='foot' numOfDeliveries={customers.length} />
+            <Row type="foot" numOfDeliveries={customers.length} />
           </Tfoot>
         </Table>
-        {isNotMobile && <ImgSpining src='/spinner.png' alt='spinning-cheese' />}
+        {isNotMobile && <ImgSpining src="/spinner.png" alt="spinning-cheese" />}
       </Container>
       <Container
         style={{
-          marginTop: '2rem',
           backgroundColor: 'var(--color-indigo-100)',
         }}
       >
-        <TextBox $pageSize={pageSize}>{tableExplanation}</TextBox>
+        <TextBox $pageSize={pageSize}>
+          <P>{tableExplanation}</P>
+        </TextBox>
       </Container>
-    </>
+    </StyledCustomerData>
   );
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { show, hide } from '../features/customer/customerSlice';
@@ -13,15 +13,17 @@ const StyledHeader = styled.header`
   grid-template-rows: 1fr;
   gap: 2rem;
   width: 98%;
+  height: 5vh;
+  justify-content: start;
+  align-items: center;
   background-color: var(--color-yellow-100);
-  padding: 1rem;
+  /* padding: 1rem; */
   border-bottom: 1px solid var(--color-grey-100);
 `;
 const StyledButtonHeader = styled.button`
   border: 2px solid var(--color-grey-900);
   border-radius: 8px;
   display: flex;
-  padding: 2px;
   justify-content: space-evenly;
   align-items: center;
   font-size: 1.6rem;
@@ -36,7 +38,6 @@ const StyledButtonHeader = styled.button`
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { info } = useParams();
   const location = useLocation();
   const pathName = location.pathname.split('/')[1];
   const isSidebarShown = useSelector((state) => state.sidebar.showSidebar);
@@ -49,7 +50,6 @@ function Header() {
     }
   }
 
-  console.log(info, pathName);
   const linkedPage = pathName === 'dashboard' ? 'customersData' : 'dashboard';
   return (
     <StyledHeader>
@@ -59,7 +59,7 @@ function Header() {
         </StyledButtonHeader>
       )}
       <StyledButtonHeader onClick={() => navigate(linkedPage)}>
-        {`${linkedPage === 'dashboard' ? 'Почетна' : 'Преглед доставе'}`}
+        {`${linkedPage === 'dashboard' ? 'Почетна' : 'Достава'}`}
       </StyledButtonHeader>
     </StyledHeader>
   );

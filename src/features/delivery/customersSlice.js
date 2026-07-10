@@ -18,17 +18,6 @@ const customersSlice = createSlice({
     setNewValue(state, action) {
       state.newValue = action.payload;
     },
-    // getCustomersData(state) {
-    //   const { data } = useQuery({
-    //     queryKey: ['current_delivery'],
-    //     queryFn: getDeliveries,
-    //   });
-    //   if (!data) return;
-    //   const customers = [...data].sort(
-    //     (custA, custB) => custA.num_in_delivery - custB.num_in_delivery
-    //   );
-    //   state.customers = customers;
-    // },
   },
 });
 

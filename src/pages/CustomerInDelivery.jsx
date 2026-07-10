@@ -67,10 +67,14 @@ const StyledDataOfRow = styled.div`
   flex-wrap: wrap;
 `;
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 function CustomerInDelivery() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   dispatch(hide());
   const customer = useSelector((state) => state.customers.customerInDelivery);
+  
+  if (!customer.length) navigate('/customersData')
 
   const {
     // customer_id: id,
@@ -88,6 +92,8 @@ function CustomerInDelivery() {
     time_for_delivery: timeForDelivery,
     // bill,
   } = { ...customer };
+
+
   return (
     <StyledCustomer>
       <StyledHeader>преглед купца</StyledHeader>

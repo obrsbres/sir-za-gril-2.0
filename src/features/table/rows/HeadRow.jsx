@@ -8,6 +8,7 @@ import { BiRegistered } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
 import { show, changeShowInputState } from '../../delivery/showFormSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import useScreenWidth from '../../../hooks/useScreenWidth';
 
 const StyledHeadRow = styled.tr`
   width: fit-content;
@@ -16,7 +17,7 @@ const StyledHeadRow = styled.tr`
   display: grid;
   grid-template-columns: ${(props) =>
     props.$pageSize === 'mobile'
-      ? '2rem 14rem 6rem 6rem 5rem'
+      ? '2rem 14rem 8rem 8rem 5rem'
       : '3rem 20rem 8rem 8rem 7rem 15rem 11rem 10rem 20rem 6rem 3rem'};
   grid-template-rows: 4rem;
   background-color: var(--color-silver-700);
@@ -49,7 +50,7 @@ function HeadRow() {
     },
     onError: (err) => alert(err.message),
   });
-  const pageSize = useSelector((state) => state.sidebar.pageSize);
+  const pageSize = useScreenWidth();
   const isNotMobile = pageSize !== 'mobile';
   return (
     <StyledHeadRow $pageSize={pageSize}>

@@ -29,21 +29,11 @@ function Dashboard() {
   const isSidebarOn = useSelector((state) => state.sidebar.showSidebar);
   const dispatch = useDispatch();
 
-  const screenWidth = useScreenWidth();
-
-  if (screenWidth > 850) dispatch(setPc());
-  else dispatch(setTabPort());
-
-  const displaySize = useSelector((state) => state.dashboard.displayWidth);
-
-  console.log(screenWidth, displaySize, isSidebarOn);
-
   isSidebarOn && dispatch(hide());
 
   return (
     <StyeldDashboard>
       <Headline />
-
       <Goods />
       <About />
       <DashStats />
