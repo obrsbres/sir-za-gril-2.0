@@ -28,5 +28,6 @@
 //   new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' }).format(
 //     value
 //   );
-export const formatTime = (value) =>
-   `${value.toString().slice(0,5)}ч`
+export const formatTime = (value) => `${value.toString().slice(0, 5)}ч`;
+
+import { useNavigate } from 'react-router-dom';

@@ -3,22 +3,23 @@ import Button from '../../ui/Button';
 import ButtonGroup from '../../ui/ButtonGroup';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import useScreenWidth from '../../hooks/useScreenWidth';
 
 const StyledFirstBox = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 2fr 1fr;
-  margin-left: 20vw;
-  margin-top: 49vh;
-  height: 20vh;
-  width: 20vw;
+  margin-left: ${(props) => (props.$displaySize === 'mobile' ? '2vw' : '20vw')};
+  margin-top: ${(props) => (props.$displaySize === 'mobile' ? '4vh' : '49vh')};
+  height: ${(props) => (props.$displaySize === 'mobile' ? '18vh' : '20vh')};
+  width: ${(props) => (props.$displaySize === 'mobile' ? '18vw' : '20vw')};
   justify-items: start;
   align-items: start;
+  font-weight: 600;
+  font-size: ${(props) => (props.$displaySize === 'mobile' ? '2rem' : '5rem')};
 `;
 const StyledHeader = styled.p`
   word-wrap: normal;
-  font-weight: 600;
-  font-size: 5rem;
   text-transform: uppercase;
   &:hover {
     background-color: #ebc971;
@@ -30,18 +31,27 @@ const StyledHeader = styled.p`
 `;
 function FirstBoxHeadline() {
   const navigate = useNavigate();
-
+  const displaySize = useScreenWidth();
+  function goToSection(page, section) {
+    navigate(page, { state: { targetId: section } });
+  }
   return (
-    <StyledFirstBox>
+    <StyledFirstBox $displaySize={displaySize}>
       <StyledHeader>Газдинство Митровић</StyledHeader>
-      <ButtonGroup style={{ backdropFilter: 'blur(10px)' }}>
+      <ButtonGroup
+        style={{
+          backdropFilter: 'blur(10px)',
+        }}
+      >
         <Button
           style={{
             color: '#f9f9f7',
-            fontSize: '2rem',
             fontWeight: '600',
+            fontSize: displaySize === 'mobile' ? '1.4rem' : '2rem',
             border: 'solid 4px #1f1f1f',
             borderRadius: '8px',
+            backgroundColor:
+              displaySize === 'mobile' ? 'var(--color-indigo-700)' : '',
           }}
           onClick={() => navigate('/customersData')}
         >
@@ -50,13 +60,17 @@ function FirstBoxHeadline() {
         <Button
           style={{
             color: '#f9f9f7',
-            fontSize: '2rem',
+            fontSize: displaySize === 'mobile' ? '1.4rem' : '2rem',
             fontWeight: '600',
             border: 'solid 4px #1f1f1f',
             borderRadius: '8px',
+            backgroundColor:
+              displaySize === 'mobile' ? 'var(--color-indigo-700)' : '',
+            width: displaySize === 'mobile' ? '10rem' : '',
           }}
+          onClick={() => goToSection('/dashboard', 'about')}
         >
-          Сазнај о сиру //треба да буде линк
+          Сазнај о сиру
         </Button>
       </ButtonGroup>
     </StyledFirstBox>

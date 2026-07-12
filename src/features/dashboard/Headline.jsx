@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
 import headlineImage from '../../../public/main-background.jpg';
-import headlineImageSmall from '../../../public/main-tab-port.jpg';
+import headlineImageTel from '/main-tel.jpg';
 import FirstBoxHeadline from './FirstBoxHeadline';
+import useScreenWidth from '../../hooks/useScreenWidth';
 const StyledHedline = styled.div`
   display: flex;
   justify-content: start;
@@ -16,18 +17,18 @@ const StyledHedline = styled.div`
   height: 120vh;
   width: 100vw;
 `;
-const SmallStyledHeadline = styled(StyledHedline)`
-  background-image: url(${headlineImageSmall});
+const TelStyledHeadline = styled(StyledHedline)`
+  background-image: url(${headlineImageTel});
   background-size: contain;
 `;
 
 function Headline() {
-  const displaySize = useSelector((state) => state.dashboard.displayWidth);
-  if (displaySize === 'tab-port')
+  const displaySize = useScreenWidth();
+  if (displaySize === 'mobile')
     return (
-      <SmallStyledHeadline>
+      <TelStyledHeadline>
         <FirstBoxHeadline />
-      </SmallStyledHeadline>
+      </TelStyledHeadline>
     );
 
   return (

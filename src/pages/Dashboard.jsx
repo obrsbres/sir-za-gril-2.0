@@ -16,11 +16,11 @@ import useScreenWidth from '../hooks/useScreenWidth';
 //https://weblium.com/templates/demo/small-farm-website-design-4
 
 const StyeldDashboard = styled.div`
-  height: 490vh;
+  height: 520vh;
   width: 100vw;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 100vh 60vh 70vh 60vh 20vh 80vh 60vh 30vh;
+  grid-template-rows: 100vh 60vh 100vh 60vh 20vh 80vh 60vh 30vh;
   background-color: #ebc971;
   font-family: 'Lora', serif;
 `;
