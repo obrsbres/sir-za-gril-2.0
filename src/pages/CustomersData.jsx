@@ -1,18 +1,23 @@
-// import styled from 'styled-components';
 import React from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+import { useSelector } from 'react-redux';
+import { useParams, useSearchParams } from 'react-router-dom';
+
+import styled from 'styled-components';
+
 import Table from '../features/table/Table';
 import Row from '../features/table/Row';
 import Thead from '../features/table/Thead';
 import Tbody from '../features/table/Tbody';
 import Tfoot from '../features/table/Tfoot';
-import { useQuery } from '@tanstack/react-query';
-import { getDeliveries } from '../services/apiDeliveries';
-import { useSelector } from 'react-redux';
 import InputForm from '../features/table/tableUIs/InputForm';
-import styled from 'styled-components';
+
 import { show } from '../features/customer/customerSlice';
 import { tableExplanation } from '../utils/tableExplanation';
+import { getDeliveries } from '../services/apiDeliveries';
 import useScreenWidth from '../hooks/useScreenWidth';
+
 const StyledCustomerData = styled.div`
   display: flex;
   height: 94vh;
@@ -93,6 +98,8 @@ function CustomersData() {
     queryFn: getDeliveries,
   });
 
+  const numOfDelivery = useSearchParams().get('sortBy') || '1';
+  console.log(numOfDelivery);
   if (!data) return;
   const customers = [...data].sort(
     (custA, custB) => custA.num_in_delivery - custB.num_in_delivery

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Filter from '../ui/Filter';
 import SortBy from './SortBy';
 import SpinnerMini from '../ui/SpinnerMini';
+import Spinner from '../ui/Spinner';
 
 import useScreenWidth from '../hooks/useScreenWidth';
 import { useDeliveriesInfo } from '../features/deliveries/useDeliveriesInfo';
@@ -46,8 +47,10 @@ const StyledButtonHeader = styled.button`
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const location = useLocation();
   const pathName = location.pathname.split('/')[1];
+
   const isSidebarShown = useSelector((state) => state.sidebar.showSidebar);
   function handleToogleSidebar() {
     if (isSidebarShown) {
@@ -59,12 +62,18 @@ function Header() {
   }
   const isNotMobile = useScreenWidth() !== 'mobile';
   const linkedPage = pathName === 'dashboard' ? 'customersData' : 'dashboard';
-  const { data: deliveriesInfo, isPending: isDeliveriesLoading } =
-    useDeliveriesInfo();
+  const {
+    isPending: isDeliveriesLoading,
+    error,
+    deliveries: deliveriesInfo,
+  } = useDeliveriesInfo();
 
-  console.log('deliveriesInfo', deliveriesInfo);
+  const pageSize = useScreenWidth();
+
+  if (isDeliveriesLoading) return <Spinner />;
+  console.log(deliveriesInfo);
   return (
-    <StyledHeader $pageSize={useScreenWidth()}>
+    <StyledHeader $pageSize={pageSize}>
       {pathName !== 'dashboard' && (
         <StyledButtonHeader onClick={handleToogleSidebar}>
           {`${isSidebarShown ? 'Скриј' : 'Прикажи'} мени`}
@@ -74,18 +83,13 @@ function Header() {
         {`${linkedPage === 'dashboard' ? 'Почетна' : 'Достава'}`}
       </StyledButtonHeader>
       {isNotMobile && <div>за сад емти</div>}
-      {isDeliveriesLoading ? (
-        <SpinnerMini />
-      ) : (
-        <SortBy
-          options={[
-            deliveriesInfo?.map((delivery) => ({
-              value: delivery.id_of_delivery,
-              label: delivery.delvery_start_day,
-            })),
-          ]}
-        />
-      )}
+
+      <SortBy
+        options={deliveriesInfo?.map((delivery) => ({
+          value: delivery.id_of_delivery,
+          label: delivery.delvery_start_day,
+        }))}
+      />
     </StyledHeader>
   );
 }
