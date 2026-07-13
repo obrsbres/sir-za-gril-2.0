@@ -1,4 +1,6 @@
-import styled, { css } from "styled-components";
+import { useSearchParams } from 'react-router-dom';
+
+import styled, { css } from 'styled-components';
 
 const StyledFilter = styled.div`
   border: 1px solid var(--color-grey-100);
@@ -33,3 +35,34 @@ const FilterButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+function Filter({ filterField }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentFilter = searchParams.get(filterField) || 'all';
+  function handleFilterChange(filter) {
+    if (searchParams.get('page')) searchParams.set('page', 1);
+    searchParams.set(filterField, filter);
+    setSearchParams(searchParams);
+  }
+  const elements = [
+    { description: 'dostava1', criteria: '1' },
+    { description: 'dostava2', criteria: '2' },
+    { description: 'dostava3', criteria: '3' },
+  ];
+  return (
+    <StyledFilter>
+      {elements?.map((element) => (
+        <FilterButton
+          key={element.criteria}
+          onClick={() => handleFilterChange(element.criteria)}
+          active={currentFilter === element.criteria}
+          disabled={currentFilter === element.criteria}
+        >
+          {element.description}
+        </FilterButton>
+      ))}
+    </StyledFilter>
+  );
+}
+
+export default Filter;

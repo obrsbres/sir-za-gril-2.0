@@ -6,13 +6,20 @@ import styled from 'styled-components';
 import { show, hide } from '../features/customer/customerSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Filter from '../ui/Filter';
+import SortBy from './SortBy';
+import SpinnerMini from '../ui/SpinnerMini';
+
+import useScreenWidth from '../hooks/useScreenWidth';
+import { useDeliveriesInfo } from '../features/deliveries/useDeliveriesInfo';
+
 const StyledHeader = styled.header`
   margin: 2px 1px 2px 1px;
   display: grid;
-  grid-template-columns: 15rem 15rem 1fr;
+  grid-template-columns: 15rem 15rem 1fr 15rem 30%;
   grid-template-rows: 1fr;
   gap: 2rem;
-  width: 98%;
+  width: 90vw;
   height: 5vh;
   justify-content: start;
   align-items: center;
@@ -50,10 +57,14 @@ function Header() {
       dispatch(show());
     }
   }
-
+  const isNotMobile = useScreenWidth() !== 'mobile';
   const linkedPage = pathName === 'dashboard' ? 'customersData' : 'dashboard';
+  const { data: deliveriesInfo, isPending: isDeliveriesLoading } =
+    useDeliveriesInfo();
+
+  console.log('deliveriesInfo', deliveriesInfo);
   return (
-    <StyledHeader>
+    <StyledHeader $pageSize={useScreenWidth()}>
       {pathName !== 'dashboard' && (
         <StyledButtonHeader onClick={handleToogleSidebar}>
           {`${isSidebarShown ? 'Скриј' : 'Прикажи'} мени`}
@@ -62,6 +73,19 @@ function Header() {
       <StyledButtonHeader onClick={() => navigate(linkedPage)}>
         {`${linkedPage === 'dashboard' ? 'Почетна' : 'Достава'}`}
       </StyledButtonHeader>
+      {isNotMobile && <div>за сад емти</div>}
+      {isDeliveriesLoading ? (
+        <SpinnerMini />
+      ) : (
+        <SortBy
+          options={[
+            deliveriesInfo?.map((delivery) => ({
+              value: delivery.id_of_delivery,
+              label: delivery.delvery_start_day,
+            })),
+          ]}
+        />
+      )}
     </StyledHeader>
   );
 }
