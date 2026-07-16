@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { format } from 'date-fns';
+import { sr } from 'date-fns/locale/sr';
 
 const StyledSelect = styled.select`
   font-size: 1.4rem;
@@ -16,9 +18,9 @@ const StyledSelect = styled.select`
 function Select({ options, value, onChange, ...props }) {
   return (
     <StyledSelect value={value} onChange={onChange} {...props}>
-      {options.map((option) => (
+      {options?.map((option) => (
         <option key={option.value} value={option.value}>
-          {option.value}: {option.label}
+          {option.value}: {format(option.label, 'dd MMM yyyy', { locale: sr })}
         </option>
       ))}
     </StyledSelect>

@@ -12,6 +12,7 @@ import Thead from '../features/table/Thead';
 import Tbody from '../features/table/Tbody';
 import Tfoot from '../features/table/Tfoot';
 import InputForm from '../features/table/tableUIs/InputForm';
+import Spinner from '../ui/Spinner';
 
 import { show } from '../features/customer/customerSlice';
 import { tableExplanation } from '../utils/tableExplanation';
@@ -21,10 +22,11 @@ import useScreenWidth from '../hooks/useScreenWidth';
 const StyledCustomerData = styled.div`
   display: flex;
   height: 94vh;
-  width: fill-available;
+  width: 100vw;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  background-color: var(--color-brand-100);
 `;
 const Container = styled.div`
   background-color: var(--color-brand-100);
@@ -97,12 +99,14 @@ function CustomersData() {
     queryKey: ['current_delivery'],
     queryFn: getDeliveries,
   });
-
-  const numOfDelivery = useSearchParams().get('sortBy') || '1';
-  console.log(numOfDelivery);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const deliveryId = searchParams.get('sortBy') || '1';
   if (!data) return;
-  const customers = [...data].sort(
-    (custA, custB) => custA.num_in_delivery - custB.num_in_delivery
+  const deliveryData = data.filter(
+    (delivery) => delivery.id_of_delivery === Number(deliveryId),
+  );
+  const customers = [...deliveryData].sort(
+    (custA, custB) => custA.num_in_delivery - custB.num_in_delivery,
   );
   const numberOfCustomers = customers.length;
   return (
@@ -112,16 +116,17 @@ function CustomersData() {
           <InputForm
             style={{ gridRow: 1, gridColumn: 1 }}
             numberOfCustomers={numberOfCustomers}
+            deliveryId={deliveryId}
           />
         )}
         <Table style={{ gridRow: 2, gridColumn: 1 }}>
           <Thead>
-            <Row type="head" />
+            <Row type='head' />
           </Thead>
           <Tbody>
             {customers.map((customer) => (
               <Row
-                type="body"
+                type='body'
                 customer={customer}
                 numOfDeliveries={customers.length}
                 key={customer.customer_id}
@@ -129,10 +134,10 @@ function CustomersData() {
             ))}
           </Tbody>
           <Tfoot>
-            <Row type="foot" numOfDeliveries={customers.length} />
+            <Row type='foot' numOfDeliveries={customers.length} />
           </Tfoot>
         </Table>
-        {isNotMobile && <ImgSpining src="/spinner.png" alt="spinning-cheese" />}
+        {isNotMobile && <ImgSpining src='/spinner.png' alt='spinning-cheese' />}
       </Container>
       <Container
         style={{

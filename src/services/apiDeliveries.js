@@ -183,7 +183,7 @@ export async function updateField(column, columnValue, id) {
     }
   }
 }
-export async function insertRow(currentRow, data = {}) {
+export async function insertRow(currentRow, data = {}, deliveryId) {
   const { error } = await supabase
     .from('current_delivery')
     .insert([
@@ -201,6 +201,7 @@ export async function insertRow(currentRow, data = {}) {
         customer_note: data.note,
         bill: data.price,
         cream_quant: data.cream,
+        id_of_delivery: deliveryId,
       },
     ])
     .select();

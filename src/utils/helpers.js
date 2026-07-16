@@ -1,6 +1,8 @@
+import { useNavigate } from 'react-router-dom';
+import { sr } from 'date-fns/locale/sr';
+import { format } from 'date-fns';
 // import { formatDistance, parseISO } from 'date-fns';
 // import { differenceInDays } from 'date-fns/esm';
-
 // // We want to make this function work for both Date objects and strings (which come from Supabase)
 // export const subtractDates = (dateStr1, dateStr2) =>
 //   differenceInDays(parseISO(String(dateStr1)), parseISO(String(dateStr2)));
@@ -24,10 +26,20 @@
 //   return today.toISOString();
 // };
 
-// export const formatCurrency = (value) =>
-//   new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' }).format(
-//     value
-//   );
+export const formatCurrency = (value, cur) =>
+  new Intl.NumberFormat('sr', { style: 'currency', currency: cur }).format(
+    value,
+  );
+
+export const formatDate = (value, length) => {
+  let lengthString;
+  if (length === 'short') lengthString = 'dd MMM';
+  if (length === 'long') lengthString = 'dd MMM yyyy';
+  return format(value, lengthString, { locale: sr });
+};
 export const formatTime = (value) => `${value.toString().slice(0, 5)}ч`;
 
-import { useNavigate } from 'react-router-dom';
+export function formatTimeFNS(value) {
+  console.log('value', value, new Date(value));
+  return `${format(value, 'HH:mm')}ч`;
+}

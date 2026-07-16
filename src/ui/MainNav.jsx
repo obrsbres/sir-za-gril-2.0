@@ -59,14 +59,13 @@ const StyledNavLink = styled(NavLink)`
 function MainNav() {
   const customer = useSelector((state) => state.customers.customerInDelivery);
   const pageSize = useScreenWidth();
-  console.log(pageSize);
   const isNotMobile = pageSize !== 'mobile';
   return (
     <NavList>
       <li>
-        <StyledNavLink $pageSize={pageSize} to="/dashboard">
+        <StyledNavLink $pageSize={pageSize} to='/dashboard'>
           <HiOutlineHome />
-          {isNotMobile && <span>HOME</span>}
+          {isNotMobile && <span>Почетна</span>}
         </StyledNavLink>
       </li>
       <li>
@@ -74,25 +73,25 @@ function MainNav() {
           to={customer.customer_id ? '/customer' : '/customersData'}
         >
           <HiOutlineCalendarDays />
-          {isNotMobile && <span>Customer</span>}
+          {isNotMobile && <span>Купац</span>}
         </StyledNavLink>
       </li>
       <li>
-        <StyledNavLink to="/customersData">
+        <StyledNavLink to='/customersData'>
           <HiOutlineHomeModern />
-          {isNotMobile && <span>Customer data</span>}
+          {isNotMobile && <span>Достава</span>}
         </StyledNavLink>
       </li>
       <li>
-        <StyledNavLink to="/delivery">
+        <StyledNavLink to='/delivery'>
           <HiOutlineUser />
-          {isNotMobile && <span>Delivery</span>}
+          {isNotMobile && <span>Све доставе</span>}
         </StyledNavLink>
       </li>
       <li>
-        <StyledNavLink to="/summary">
+        <StyledNavLink to='/summary'>
           <HiOutlineCog8Tooth />
-          {isNotMobile && <span>Summarty</span>}
+          {isNotMobile && <span>Збрини преглед</span>}
         </StyledNavLink>
       </li>
     </NavList>

@@ -8,7 +8,6 @@ function SortBy({ options }) {
     searchParams.set('sortBy', e.target.value);
     setSearchParams(searchParams);
   }
-  console.log('sortBy', options);
   return (
     <Select
       options={options}

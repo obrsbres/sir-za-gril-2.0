@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { useForm } from 'react-hook-form';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import NewRowButton from './NewRowButton';
 import Error from '../../../ui/Error';
@@ -69,7 +69,7 @@ const Label = styled.label`
   align-items: center;
 `;
 
-function InputForm({ numberOfCustomers }) {
+function InputForm({ numberOfCustomers, deliveryId }) {
   const { register, handleSubmit, formState, reset } = useForm();
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
@@ -82,13 +82,13 @@ function InputForm({ numberOfCustomers }) {
   const { mutate } = useMutation(
     {
       mutationFn: (data) => {
-        insertRow(numberOfCustomers, data);
+        insertRow(numberOfCustomers, data, deliveryId);
       },
       onSuccess: () => toast.success('Успешно додат купац'),
     },
     queryClient.invalidateQueries({
       queryKey: ['current_delivery'],
-    })
+    }),
   );
 
   function onError(errors) {
@@ -112,17 +112,17 @@ function InputForm({ numberOfCustomers }) {
       {errors?.note?.message && <Error>{errors.note.message}</Error>}
       {errors?.price?.message && <Error>{errors.price.message}</Error>}
       <StyledInputFormRow onSubmit={handleSubmit(onSubmit, onError)}>
-        <Label htmlFor="id">рб</Label>
-        <Label htmlFor="name">Име и презиме</Label>
-        <Label htmlFor="gril">Грил</Label>
-        <Label htmlFor="trad">Ситан</Label>
-        <Label htmlFor="cream">Увара</Label>
-        <Label htmlFor="add">Адреса</Label>
-        <Label htmlFor="tel">Телефон</Label>
-        <Label htmlFor="time">Време</Label>
-        <Label htmlFor="note">Напомена</Label>
-        <Label htmlFor="price">Цена</Label>
-        <Label htmlFor="button">
+        <Label htmlFor='id'>рб</Label>
+        <Label htmlFor='name'>Име и презиме</Label>
+        <Label htmlFor='gril'>Грил</Label>
+        <Label htmlFor='trad'>Ситан</Label>
+        <Label htmlFor='cream'>Увара</Label>
+        <Label htmlFor='add'>Адреса</Label>
+        <Label htmlFor='tel'>Телефон</Label>
+        <Label htmlFor='time'>Време</Label>
+        <Label htmlFor='note'>Напомена</Label>
+        <Label htmlFor='price'>Цена</Label>
+        <Label htmlFor='button'>
           <div
             style={{
               display: 'flex',
@@ -136,31 +136,31 @@ function InputForm({ numberOfCustomers }) {
           </div>
         </Label>
         <StyledInputFormCell
-          key="id"
-          id="id"
-          type="number"
+          key='id'
+          id='id'
+          type='number'
           {...register('id')}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id="name"
-          key="name"
-          type="text"
+          id='name'
+          key='name'
+          type='text'
           {...register('name', {
             required: 'Име је обавезно',
           })}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id="gril"
-          key="gril"
-          type="number"
+          id='gril'
+          key='gril'
+          type='number'
           {...register('gril', {
             min: { value: 0, message: 'Количина грила не може бити негативна' },
           })}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id="trad"
-          key="trad"
-          type="number"
+          id='trad'
+          key='trad'
+          type='number'
           {...register('trad', {
             min: {
               value: 0,
@@ -169,24 +169,24 @@ function InputForm({ numberOfCustomers }) {
           })}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id="cream"
-          key="cream"
-          type="number"
+          id='cream'
+          key='cream'
+          type='number'
           {...register('cream', {
             min: { value: 0, message: 'Количина уваре не може бити негативна' },
           })}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id="add"
-          key="add"
-          type="text"
+          id='add'
+          key='add'
+          type='text'
           {...register('add', { required: 'Адеса је обавезна' })}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id="tel"
-          placeholder="06xxxxxxxx"
-          key="tel"
-          type="telephone"
+          id='tel'
+          placeholder='06xxxxxxxx'
+          key='tel'
+          type='telephone'
           {...register('tel', {
             required: 'Обавезан телефон',
             pattern: {
@@ -197,25 +197,29 @@ function InputForm({ numberOfCustomers }) {
           })}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id="time"
-          key="time"
-          type="time"
+          id='time'
+          key='time'
+          type='time'
+          lang='us'
+          step='900'
+          min='15:00'
+          max='23:00'
           {...register('time')}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id="note"
-          key="note"
-          type="text"
+          id='note'
+          key='note'
+          type='text'
           {...register('note')}
         ></StyledInputFormCell>
         <StyledInputFormCell
-          id="price"
-          key="price"
-          type="number"
+          id='price'
+          key='price'
+          type='number'
           {...register('price')}
         ></StyledInputFormCell>
         <NewRowButton
-          type="submit"
+          type='submit'
           // onClick={(e) => {
           //   e.preventDefault();
           //   handleSubmit(onSubmit);

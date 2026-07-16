@@ -11,6 +11,5 @@ export function useDeliveriesInfo() {
     queryFn: getDeliveriesInfo,
   });
 
-  console.log('deliveries', deliveries);
   return { isPending, error, deliveries };
 }

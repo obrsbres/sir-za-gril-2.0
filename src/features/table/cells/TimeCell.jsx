@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
 import styled from 'styled-components';
@@ -60,6 +59,10 @@ function TimeCell({ id, timeForDelivery }) {
       {displayInputBox && !isPending ? (
         <InputChangeValue
           type='time'
+          min='15:00'
+          max='23:00'
+          step='900'
+          lang='sr'
           defaultValue={timeForDelivery}
           onBlur={() => setDisplayInputBox(false)}
           onSubmit={() => {

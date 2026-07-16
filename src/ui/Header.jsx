@@ -17,14 +17,15 @@ import { useDeliveriesInfo } from '../features/deliveries/useDeliveriesInfo';
 const StyledHeader = styled.header`
   margin: 2px 1px 2px 1px;
   display: grid;
-  grid-template-columns: 15rem 15rem 1fr 15rem 30%;
+  grid-template-columns: 20rem 20rem 1fr 20rem 30%;
   grid-template-rows: 1fr;
   gap: 2rem;
-  width: 90vw;
-  height: 5vh;
+  width: 100vw;
+  height: auto;
+  padding: 0.5rem;
   justify-content: start;
   align-items: center;
-  background-color: var(--color-yellow-100);
+  background-color: var(--color-brand-100);
   /* padding: 1rem; */
   /* border-bottom: 1px solid var(--color-green-700); */
 `;
@@ -36,11 +37,13 @@ const StyledButtonHeader = styled.button`
   align-items: center;
   font-size: 1.6rem;
   font-weight: bolder;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   color: #1f1f1f;
   background-color: var(--color-indigo-700);
   color: var(--color-indigo-100);
-  height: 4vh;
+  height: auto;
+  padding: 0.5rem 1rem;
+  width: fit-content;
   flex-wrap: wrap;
 `;
 
@@ -71,7 +74,7 @@ function Header() {
   const pageSize = useScreenWidth();
 
   if (isDeliveriesLoading) return <Spinner />;
-  console.log(deliveriesInfo);
+
   return (
     <StyledHeader $pageSize={pageSize}>
       {pathName !== 'dashboard' && (
@@ -82,14 +85,18 @@ function Header() {
       <StyledButtonHeader onClick={() => navigate(linkedPage)}>
         {`${linkedPage === 'dashboard' ? 'Почетна' : 'Достава'}`}
       </StyledButtonHeader>
-      {isNotMobile && <div>за сад емти</div>}
-
-      <SortBy
-        options={deliveriesInfo?.map((delivery) => ({
-          value: delivery.id_of_delivery,
-          label: delivery.delvery_start_day,
-        }))}
-      />
+      <div></div>
+      <StyledButtonHeader onClick={() => navigate('/delivery')}>
+        Нова достава
+      </StyledButtonHeader>
+      {deliveriesInfo && (
+        <SortBy
+          options={deliveriesInfo?.map((delivery) => ({
+            value: delivery.id_of_delivery,
+            label: delivery.delvery_start_day,
+          }))}
+        />
+      )}
     </StyledHeader>
   );
 }
