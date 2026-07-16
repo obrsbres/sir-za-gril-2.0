@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { HiOutlineHome } from 'react-icons/hi2';
 import { HiOutlineHomeModern } from 'react-icons/hi2';
@@ -60,6 +60,8 @@ function MainNav() {
   const customer = useSelector((state) => state.customers.customerInDelivery);
   const pageSize = useScreenWidth();
   const isNotMobile = pageSize !== 'mobile';
+  const [searchParams] = useSearchParams();
+  const sortBy = searchParams.get('sortBy');
   return (
     <NavList>
       <li>
@@ -70,14 +72,14 @@ function MainNav() {
       </li>
       <li>
         <StyledNavLink
-          to={customer.customer_id ? '/customer' : '/customersData'}
+          to={customer.customer_id ? '/customer' : `/customersData`}
         >
           <HiOutlineCalendarDays />
           {isNotMobile && <span>Купац</span>}
         </StyledNavLink>
       </li>
       <li>
-        <StyledNavLink to='/customersData'>
+        <StyledNavLink to={`/customersData`}>
           <HiOutlineHomeModern />
           {isNotMobile && <span>Достава</span>}
         </StyledNavLink>

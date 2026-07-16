@@ -77,11 +77,10 @@ function Header() {
 
   return (
     <StyledHeader $pageSize={pageSize}>
-      {pathName !== 'dashboard' && (
-        <StyledButtonHeader onClick={handleToogleSidebar}>
-          {`${isSidebarShown ? 'Скриј' : 'Прикажи'} мени`}
-        </StyledButtonHeader>
-      )}
+      <StyledButtonHeader onClick={handleToogleSidebar}>
+        {`${isSidebarShown ? 'Скриј' : 'Прикажи'} мени`}
+      </StyledButtonHeader>
+
       <StyledButtonHeader onClick={() => navigate(linkedPage)}>
         {`${linkedPage === 'dashboard' ? 'Почетна' : 'Достава'}`}
       </StyledButtonHeader>

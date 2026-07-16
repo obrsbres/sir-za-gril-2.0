@@ -26,10 +26,10 @@ const StyeldDashboard = styled.div`
 `;
 
 function Dashboard() {
-  const isSidebarOn = useSelector((state) => state.sidebar.showSidebar);
-  const dispatch = useDispatch();
+  // const isSidebarOn = useSelector((state) => state.sidebar.showSidebar);
+  // const dispatch = useDispatch();
 
-  isSidebarOn && dispatch(hide());
+  // isSidebarOn && dispatch(hide());
 
   return (
     <StyeldDashboard>

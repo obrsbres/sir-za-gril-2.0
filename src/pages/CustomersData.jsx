@@ -99,7 +99,7 @@ function CustomersData() {
     queryKey: ['current_delivery'],
     queryFn: getDeliveries,
   });
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const deliveryId = searchParams.get('sortBy') || '1';
   if (!data) return;
   const deliveryData = data.filter(

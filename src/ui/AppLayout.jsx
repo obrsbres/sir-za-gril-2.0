@@ -35,14 +35,8 @@ const StyledMain = styled.main`
 `;
 
 function AppLayout() {
-  const screenWidth = useScreenWidth();
   const pageSize = useScreenWidth();
-  const location = useLocation();
-  const pathName = location.pathname.split('/')[1];
-  const hideSidebar =
-    useSelector((state) => state.sidebar.showSidebar) &&
-    pathName !== 'dashboard';
-
+  const hideSidebar = useSelector((state) => state.sidebar.showSidebar);
   return (
     <StyledContainer>
       <Header />
