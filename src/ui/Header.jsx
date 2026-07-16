@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { show, hide } from '../features/customer/customerSlice';
+import { show } from '../features/customer/customerSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Filter from '../ui/Filter';
@@ -55,10 +55,7 @@ function Header() {
   const pathName = location.pathname.split('/')[1];
 
   const isSidebarShown = useSelector((state) => state.sidebar.showSidebar);
-  function handleToogleSidebar() {
-    if (isSidebarShown) {
-      dispatch(hide());
-    }
+  function showSidebar() {
     if (!isSidebarShown) {
       dispatch(show());
     }
@@ -77,9 +74,11 @@ function Header() {
 
   return (
     <StyledHeader $pageSize={pageSize}>
-      <StyledButtonHeader onClick={handleToogleSidebar}>
-        {`${isSidebarShown ? 'Скриј' : 'Прикажи'} мени`}
-      </StyledButtonHeader>
+      {!isSidebarShown && (
+        <StyledButtonHeader onClick={showSidebar}>
+          Прикажи мени
+        </StyledButtonHeader>
+      )}
 
       <StyledButtonHeader onClick={() => navigate(linkedPage)}>
         {`${linkedPage === 'dashboard' ? 'Почетна' : 'Достава'}`}
