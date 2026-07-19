@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -25,15 +24,13 @@ const StyledCell = styled.td`
 `;
 
 function CreamCell({ id, creamQuant }) {
-  const newValue = useSelector((state) => state.customers.newValue);
-
   const [displayInputBox, setDisplayInputBox] = useState(false);
 
   const queryClient = useQueryClient();
 
   const { isPending, mutate } = useMutation(
     {
-      mutationFn: () => {
+      mutationFn: (newValue) => {
         updateField('cream_quant', newValue, id);
         setDisplayInputBox(false);
       },
@@ -43,7 +40,7 @@ function CreamCell({ id, creamQuant }) {
     },
     queryClient.invalidateQueries({
       queryKey: ['current_delivery'],
-    }),
+    })
   );
   useHotkey('esc', () => setDisplayInputBox(false), {
     conflictBehavior: 'allow',
@@ -59,12 +56,12 @@ function CreamCell({ id, creamQuant }) {
         <InputChangeValue
           defaultValue={creamQuant}
           placeholder={creamQuant}
-          type='number'
+          type="number"
           onBlur={() => setDisplayInputBox(false)}
-          onSubmit={() => {
-            mutate(newValue, id);
+          onSubmit={(newValue) => {
+            mutate(newValue);
           }}
-          cellWidth='3rem'
+          cellWidth="3rem"
         />
       ) : (
         creamQuant

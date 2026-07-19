@@ -18,7 +18,7 @@ import React from 'react';
 const queryCl = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000,
+      staleTime: 100,
     },
   },
 });
@@ -34,19 +34,19 @@ function App() {
         <GlobalStyles />
         <Routes>
           <Route element={<AppLayout />}>
-            <Route index element={<Navigate replace to='dashboard' />} />
-            <Route path='dashboard' element={<Dashboard />} />
-            <Route path='customer' element={<CustomerInDelivery />} />
-            <Route path='customersData' element={<CustomersData />} />
-            <Route path='delivery' element={<Delivery />} />
-            <Route path='summary' element={<Summary />} />
+            <Route index element={<Navigate replace to="dashboard" />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="customer" element={<CustomerInDelivery />} />
+            <Route path="customersData" element={<CustomersData />} />
+            <Route path="delivery" element={<Delivery />} />
+            <Route path="summary" element={<Summary />} />
           </Route>
-          <Route path='login' element={<Login />} />
-          <Route path='*' element={<PageNotFound />} />
+          <Route path="login" element={<Login />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
       <Toaster
-        postion='top-center'
+        postion="top-center"
         gutter={12}
         container-style={{
           success: {

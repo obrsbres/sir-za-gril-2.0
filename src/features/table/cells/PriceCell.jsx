@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,8 +28,6 @@ const PRICES = {
   creamPrice: 300,
 };
 function PriceCell({ id, price, grilQuant, tradQuant, creamQuant }) {
-  const newValue = useSelector((state) => state.customers.newValue);
-
   const usualPrice =
     grilQuant * PRICES.grilPrice +
     tradQuant * PRICES.tradPrice +
@@ -42,7 +39,7 @@ function PriceCell({ id, price, grilQuant, tradQuant, creamQuant }) {
 
   const { isPending, mutate } = useMutation(
     {
-      mutationFn: () => {
+      mutationFn: (newValue) => {
         setDisplayInputBox(false);
         updateField('bill', newValue, id);
       },
@@ -71,7 +68,7 @@ function PriceCell({ id, price, grilQuant, tradQuant, creamQuant }) {
           placeholder={price}
           type="number"
           onBlur={() => setDisplayInputBox(false)}
-          onSubmit={() => {
+          onSubmit={(newValue) => {
             mutate(newValue, id);
             setDisplayInputBox(false);
           }}

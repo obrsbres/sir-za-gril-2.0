@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,15 +22,13 @@ const StyledCell = styled.td`
   align-items: center;
 `;
 function TelephoneCell({ id, customerTelephone }) {
-  const newValue = useSelector((state) => state.customers.newValue);
-
   const [displayInputBox, setDisplayInputBox] = useState(false);
 
   const queryClient = useQueryClient();
 
   const { isPending, mutate } = useMutation(
     {
-      mutationFn: () => {
+      mutationFn: (newValue) => {
         updateField('customer_telephone', newValue, id);
         setDisplayInputBox(false);
       },
@@ -56,8 +53,8 @@ function TelephoneCell({ id, customerTelephone }) {
       {displayInputBox && !isPending ? (
         <InputChangeValue
           type="text"
-          onSubmit={() => {
-            mutate(newValue, id);
+          onSubmit={(newValue) => {
+            mutate(newValue);
           }}
           cellWidth="13rem"
         />

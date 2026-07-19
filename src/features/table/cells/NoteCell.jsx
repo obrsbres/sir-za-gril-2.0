@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
 import { useSelector } from 'react-redux';
@@ -24,15 +23,13 @@ const StyledCell = styled.td`
 `;
 
 function NoteCell({ children, id, customerNote }) {
-  const newValue = useSelector((state) => state.customers.newValue);
-
   const [displayInputBox, setDisplayInputBox] = useState(false);
 
   const queryClient = useQueryClient();
 
   const { isPending, mutate } = useMutation(
     {
-      mutationFn: () => {
+      mutationFn: (newValue) => {
         updateField('customer_note', newValue, id);
         setDisplayInputBox(false);
       },
@@ -56,7 +53,7 @@ function NoteCell({ children, id, customerNote }) {
           placeholder={customerNote}
           type="text"
           onBlur={() => setDisplayInputBox(false)}
-          onSubmit={() => {
+          onSubmit={(newValue) => {
             mutate(newValue, id);
           }}
           cellWidth="15rem"

@@ -1,9 +1,6 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import { useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 import toast from 'react-hot-toast';
@@ -25,8 +22,6 @@ const StyledCell = styled.td`
 `;
 
 function TradCheeseCell({ id, tradPack, tradQuant }) {
-  const newValue = useSelector((state) => state.customers.newValue);
-
   const [displayInputBoxQuant, setDisplayInputBoxQuant] = useState(false);
   const [displayInputBoxPack, setDisplayInputBoxPack] = useState(false);
   const [column, setColumn] = useState('');
@@ -35,7 +30,7 @@ function TradCheeseCell({ id, tradPack, tradQuant }) {
 
   const { isPending, mutate } = useMutation(
     {
-      mutationFn: () => {
+      mutationFn: (newValue) => {
         updateField(column, newValue, id);
         setDisplayInputBoxPack(false);
         setDisplayInputBoxQuant(false);
@@ -62,9 +57,9 @@ function TradCheeseCell({ id, tradPack, tradQuant }) {
             placeholder={tradQuant}
             type="number"
             onBlur={() => setDisplayInputBoxQuant(false)}
-            onSubmit={() => {
+            onSubmit={(newValue) => {
               setColumn('trad_quant');
-              mutate(column, newValue, id);
+              mutate(newValue);
             }}
             cellWidth="3rem"
           />
@@ -82,9 +77,9 @@ function TradCheeseCell({ id, tradPack, tradQuant }) {
           <InputChangeValue
             type="checkbox"
             onBlur={() => setDisplayInputBoxPack(false)}
-            onSubmit={() => {
+            onSubmit={(newValue) => {
               setColumn('trad_pack');
-              mutate(column, newValue, id);
+              mutate(newValue);
             }}
             cellWidth="tr"
           />

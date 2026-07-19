@@ -21,7 +21,7 @@ const customersSlice = createSlice({
   },
 });
 
-export const { getCustomersData, sendCustomerForDeliveryView, setNewValue } =
+export const { sendCustomerForDeliveryView, setNewValue } =
   customersSlice.actions;
 
 export default customersSlice.reducer;

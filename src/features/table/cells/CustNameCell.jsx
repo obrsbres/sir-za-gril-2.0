@@ -27,28 +27,25 @@ const StyledCell = styled.td`
 `;
 
 function CustNameCell({ name, id, customer }) {
-  const newValue = useSelector((state) => state.customers.newValue);
-
+  // const newValue = useSelector((state) => state.customers.newValue);
+  // const [newValue, setNewValue] = useState('');
   const [displayInputBox, setDisplayInputBox] = useState(false);
 
   const queryClient = useQueryClient();
 
   const dispatch = useDispatch();
 
-  const { isPending, mutate } = useMutation(
-    {
-      mutationFn: () => {
-        updateField('name', newValue, id);
-      },
-      onSuccess: () => {
-        setDisplayInputBox(false);
-        toast.success('Успешно промењено име купца');
-      },
+  const { isPending, mutate } = useMutation({
+    mutationFn: (newValue) => updateField('name', newValue, id),
+    onSuccess: () => {
+      toast.success('Успешно промењено име купца');
+      queryClient.invalidateQueries({
+        queryKey: ['current_delivery'],
+      });
+      setDisplayInputBox(false);
     },
-    queryClient.invalidateQueries({
-      queryKey: ['current_delivery'],
-    }),
-  );
+    onError: (err) => toast.error(err.message),
+  });
   useHotkey('esc', () => setDisplayInputBox(false), {
     conflictBehavior: 'allow',
   });
@@ -63,18 +60,18 @@ function CustNameCell({ name, id, customer }) {
         setDisplayInputBox(true);
       }}
     >
-      <button onClick={() => handleShowCustomer(customer)}>
-        <Link to='/customer'>🚙</Link>
+      <button>
+        <Link to="/customer">🚙</Link>
       </button>
       {displayInputBox && !isPending ? (
         <InputChangeValue
           placeholder={name}
-          type='text'
+          type="text"
           onBlur={() => setDisplayInputBox(false)}
-          onSubmit={() => {
-            mutate(newValue, id);
+          onSubmit={(newValue) => {
+            mutate(newValue);
           }}
-          cellWidth='20rem'
+          cellWidth="20rem"
         />
       ) : (
         name

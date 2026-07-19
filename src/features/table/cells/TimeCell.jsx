@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import InputChangeValue from '../tableUIs/InputChangeValue';
 import { updateField } from '../../../services/apiDeliveries';
 import { formatTime } from '../../../utils/helpers';
-import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { useHotkey } from '@tanstack/react-hotkeys';
@@ -26,17 +25,15 @@ const StyledCell = styled.td`
 
 const DEFAULT_TIME = '19:00:00';
 function TimeCell({ id, timeForDelivery }) {
-  const newValue = useSelector((state) => state.customers.newValue);
-
   const [displayInputBox, setDisplayInputBox] = useState(false);
 
   const queryClient = useQueryClient();
 
   const { isPending, mutate } = useMutation(
     {
-      mutationFn: () => {
-        setDisplayInputBox(false);
+      mutationFn: (newValue) => {
         updateField('time_for_delivery', newValue, id);
+        setDisplayInputBox(false);
       },
       onSuccess: () => {
         toast.success('Успешно промењено време');
@@ -44,7 +41,7 @@ function TimeCell({ id, timeForDelivery }) {
     },
     queryClient.invalidateQueries({
       queryKey: ['current_delivery'],
-    }),
+    })
   );
 
   useHotkey('esc', () => setDisplayInputBox(false), {
@@ -58,17 +55,17 @@ function TimeCell({ id, timeForDelivery }) {
     >
       {displayInputBox && !isPending ? (
         <InputChangeValue
-          type='time'
-          min='15:00'
-          max='23:00'
-          step='900'
-          lang='sr'
+          type="time"
+          min="15:00"
+          max="23:00"
+          step="900"
+          lang="sr"
           defaultValue={timeForDelivery}
           onBlur={() => setDisplayInputBox(false)}
-          onSubmit={() => {
-            mutate(newValue, id);
+          onSubmit={(newValue) => {
+            mutate(newValue);
           }}
-          cellWidth='8rem'
+          cellWidth="8rem"
         />
       ) : timeForDelivery ? (
         formatTime(timeForDelivery)

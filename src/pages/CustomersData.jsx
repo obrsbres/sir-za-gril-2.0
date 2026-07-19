@@ -16,8 +16,8 @@ import Spinner from '../ui/Spinner';
 
 import { show } from '../features/customer/customerSlice';
 import { tableExplanation } from '../utils/tableExplanation';
-import { getDeliveries } from '../services/apiDeliveries';
 import useScreenWidth from '../hooks/useScreenWidth';
+import { useDeliveries } from '../features/delivery/useDeliveries';
 
 const StyledCustomerData = styled.div`
   display: flex;
@@ -95,19 +95,17 @@ function CustomersData() {
   const isNotMobile = pageSize !== 'mobile';
   const showInputForm = useSelector((state) => state.inputForm.showInputForm);
   show();
-  const { data } = useQuery({
-    queryKey: ['current_delivery'],
-    queryFn: getDeliveries,
-  });
+  const { isPending, error, deliveries } = useDeliveries();
   const [searchParams] = useSearchParams();
   const deliveryId = searchParams.get('sortBy') || '1';
-  if (!data) return;
-  const deliveryData = data.filter(
-    (delivery) => delivery.id_of_delivery === Number(deliveryId),
+  if (!deliveries) return;
+  const deliveryData = deliveries.filter(
+    (delivery) => delivery.id_of_delivery === Number(deliveryId)
   );
   const customers = [...deliveryData].sort(
-    (custA, custB) => custA.num_in_delivery - custB.num_in_delivery,
+    (custA, custB) => custA.num_in_delivery - custB.num_in_delivery
   );
+  if (isPending) return <Spinner />;
   const numberOfCustomers = customers.length;
   return (
     <StyledCustomerData>
@@ -121,12 +119,12 @@ function CustomersData() {
         )}
         <Table style={{ gridRow: 2, gridColumn: 1 }}>
           <Thead>
-            <Row type='head' />
+            <Row type="head" />
           </Thead>
           <Tbody>
             {customers.map((customer) => (
               <Row
-                type='body'
+                type="body"
                 customer={customer}
                 numOfDeliveries={customers.length}
                 key={customer.customer_id}
@@ -134,10 +132,10 @@ function CustomersData() {
             ))}
           </Tbody>
           <Tfoot>
-            <Row type='foot' numOfDeliveries={customers.length} />
+            <Row type="foot" numOfDeliveries={customers.length} />
           </Tfoot>
         </Table>
-        {isNotMobile && <ImgSpining src='/spinner.png' alt='spinning-cheese' />}
+        {isNotMobile && <ImgSpining src="/spinner.png" alt="spinning-cheese" />}
       </Container>
       <Container
         style={{

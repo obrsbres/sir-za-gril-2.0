@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -26,19 +25,17 @@ const StyledAddressCell = styled.td`
   word-wrap: balance;
 `;
 function AddressCell({ id, customerAddress }) {
-  const newValue = useSelector((state) => state.customers.newValue);
-
   const [displayInputBox, setDisplayInputBox] = useState(false);
 
   const queryClient = useQueryClient();
 
   const { isPending, mutate } = useMutation(
     {
-      mutationFn: () => {
+      mutationFn: (newValue) => {
         updateField('customer_address', newValue, id);
-        setDisplayInputBox(false);
       },
       onSuccess: () => {
+        setDisplayInputBox(false);
         toast.success('Успешно промењено поље адресе купца');
       },
     },
@@ -63,8 +60,8 @@ function AddressCell({ id, customerAddress }) {
           placeholder={customerAddress}
           type="text"
           onBlur={() => setDisplayInputBox(false)}
-          onSubmit={() => {
-            mutate(newValue, id);
+          onSubmit={(newValue) => {
+            mutate(newValue);
           }}
           cellWidth="13rem"
         />

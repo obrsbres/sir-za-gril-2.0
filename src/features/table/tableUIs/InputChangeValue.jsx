@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
-
 import styled from 'styled-components';
 
 import { setNewValue } from '../../../features/delivery/customersSlice';
@@ -21,10 +19,9 @@ function InputChangeValue({
   onBlur,
   cellWidth,
 }) {
-  const dispatch = useDispatch();
-
-  const showForTrad = cellWidth !== 'tr';
-
+  const [newValue, setNewValue] = useState('');
+  const showForTrad = cellWidth === 'tr';
+  console.log(cellWidth);
   if (type === 'checkbox')
     return (
       <form
@@ -37,10 +34,7 @@ function InputChangeValue({
           color: 'var(--color-blue-100)',
         }}
         onBlur={onBlur}
-        onSubmit={(e) => {
-          e.preventDefault();
-          onSubmit();
-        }}
+        onSubmit={onSubmit}
       >
         <div
           style={{
@@ -53,15 +47,14 @@ function InputChangeValue({
           <StyledInput
             style={{ width: '1.5rem', height: 'fit-content' }}
             onChange={(e) => {
-              dispatch(setNewValue(e.target.value));
-              onSubmit();
+              onSubmit(e.target.value);
             }}
             type={type}
-            id='0.5kg'
-            name='0.5kg'
-            value='0.5kg'
+            id="0.5kg"
+            name="0.5kg"
+            value="0.5kg"
           ></StyledInput>
-          <label htmlFor='0.5kg'>0.5</label>
+          <label htmlFor="0.5kg">0.5</label>
         </div>
         <div
           style={{
@@ -74,40 +67,35 @@ function InputChangeValue({
           <StyledInput
             style={{ width: '1.5rem', height: 'fit-content' }}
             onChange={(e) => {
-              dispatch(setNewValue(e.target.value));
-              onSubmit();
+              onSubmit(e.target.value);
             }}
             type={type}
-            id='kg'
-            name='kg'
-            value='kg'
+            id="kg"
+            name="kg"
+            value="kg"
           ></StyledInput>
-          <label htmlFor='kg'>kg</label>
+          <label htmlFor="kg">kg</label>
         </div>
+
         <div
           style={{
-            display: 'flex',
+            display: showForTrad ? 'none' : 'flex',
             flexDirection: 'row',
             justifyContent: 'start',
             alignItems: 'center',
           }}
         >
-          {showForTrad && (
-            <>
-              <StyledInput
-                style={{ width: '1.5rem', height: 'fit-content' }}
-                onChange={(e) => {
-                  dispatch(setNewValue(e.target.value));
-                  onSubmit();
-                }}
-                type={type}
-                id='kom'
-                name='kom'
-                value='ком'
-              ></StyledInput>
-              <label htmlFor='kom'>ком</label>
-            </>
-          )}
+          <StyledInput
+            style={{ width: '1.5rem', height: 'fit-content' }}
+            onChange={(e) => {
+              onSubmit(e.target.value);
+            }}
+            type={type}
+            id="ком"
+            name="ком"
+            value="ком"
+          ></StyledInput>
+          <label htmlFor="ком">ком</label>
         </div>
       </form>
     );
@@ -122,20 +110,15 @@ function InputChangeValue({
           backgroundColor: 'var(--color-yellow-700)',
           color: 'var(--color-yellow-100)',
         }}
-        autoFocus
-        onSubmit={(e) => {
-          e.preventDefault();
-          onSubmit();
-        }}
       >
         <StyledInput
           onBlur={onBlur}
           style={{ width: 'fit-content', height: 'fit-content' }}
           type={type}
-          
+          autoFocus
           onChange={(e) => {
-            dispatch(setNewValue(e.target.value));
-            onSubmit();
+            setNewValue(e.target.value);
+            onSubmit(e.target.value);
           }}
         ></StyledInput>
       </form>
@@ -145,15 +128,16 @@ function InputChangeValue({
       style={{ width: cellWidth }}
       onSubmit={(e) => {
         e.preventDefault();
-        onSubmit();
+        onSubmit(newValue);
       }}
     >
       <StyledInput
-        onChange={(e) => dispatch(setNewValue(e.target.value))}
-        defaultValue={defaultValue}
+        autoFocus
+        onChange={(e) => {
+          setNewValue(e.target.value);
+        }}
         onBlur={onBlur}
         type={type}
-        
         placeholder={placeholder}
       ></StyledInput>
     </form>

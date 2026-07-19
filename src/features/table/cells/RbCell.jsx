@@ -1,4 +1,3 @@
-/*eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
 import styled from 'styled-components';
@@ -24,15 +23,13 @@ const StyledCell = styled.td`
 `;
 
 function RbCell({ numInDelivery, id }) {
-  const newValue = useSelector((state) => state.customers.newValue);
-
   const [displayInputBox, setDisplayInputBox] = useState(false);
 
   const queryClient = useQueryClient();
 
   const { isPending, mutate } = useMutation(
     {
-      mutationFn: () => {
+      mutationFn: (newValue) => {
         updateField('num_in_delivery', newValue, id);
         setDisplayInputBox(false);
       },
@@ -42,7 +39,7 @@ function RbCell({ numInDelivery, id }) {
     },
     queryClient.invalidateQueries({
       queryKey: ['current_delivery'],
-    }),
+    })
   );
   useHotkey('esc', () => setDisplayInputBox(false), {
     conflictBehavior: 'allow',
@@ -57,12 +54,12 @@ function RbCell({ numInDelivery, id }) {
         <InputChangeValue
           defaultValue={numInDelivery}
           placeholder={numInDelivery}
-          type='number'
+          type="number"
           onBlur={() => setDisplayInputBox(false)}
-          onSubmit={() => {
-            mutate(newValue, id);
+          onSubmit={(newValue) => {
+            mutate(newValue);
           }}
-          cellWidth='3rem'
+          cellWidth="3rem"
         />
       ) : (
         numInDelivery

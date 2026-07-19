@@ -1,4 +1,3 @@
-/*eslint-disable react/prop-types*/
 import React, { useState } from 'react';
 
 import styled from 'styled-components';
@@ -24,8 +23,6 @@ const StyledCell = styled.td`
 `;
 
 function GrilCell({ id, grillPack, grillQuant }) {
-  const newValue = useSelector((state) => state.customers.newValue);
-
   const [displayInputBoxQuant, setDisplayInputBoxQuant] = useState(false);
   const [displayInputBoxPack, setDisplayInputBoxPack] = useState(false);
   const [column, setColumn] = useState('');
@@ -34,10 +31,10 @@ function GrilCell({ id, grillPack, grillQuant }) {
 
   const { isPending, mutate } = useMutation(
     {
-      mutationFn: () => {
+      mutationFn: (newValue) => {
         updateField(column, newValue, id);
-        setDisplayInputBoxQuant(false);
-        setDisplayInputBoxPack(false);
+        column === 'grill_quant' && setDisplayInputBoxQuant(false);
+        column === 'grill_pack' && setDisplayInputBoxPack(false);
       },
       onSuccess: () => {
         toast.success('Успешно промењени подаци за грил');
@@ -56,9 +53,8 @@ function GrilCell({ id, grillPack, grillQuant }) {
           placeholder={grillQuant}
           type="number"
           onBlur={() => setDisplayInputBoxQuant(false)}
-          onSubmit={() => {
-            setColumn('grill_quant');
-            mutate(column, newValue, id);
+          onSubmit={(newValue) => {
+            mutate(newValue);
           }}
           cellWidth="3rem"
         />
@@ -66,6 +62,7 @@ function GrilCell({ id, grillPack, grillQuant }) {
         <span
           onClick={() => {
             setDisplayInputBoxQuant(true);
+            setColumn('grill_quant');
           }}
           style={{ color: 'var(--color-red-800)' }}
         >
@@ -79,9 +76,8 @@ function GrilCell({ id, grillPack, grillQuant }) {
         <InputChangeValue
           type="checkbox"
           onBlur={() => setDisplayInputBoxPack(false)}
-          onSubmit={() => {
-            setColumn('grill_pack');
-            mutate(column, newValue, id);
+          onSubmit={(newValue) => {
+            mutate(newValue);
           }}
           cellWidth="6rem"
         />
@@ -89,6 +85,8 @@ function GrilCell({ id, grillPack, grillQuant }) {
         <span
           onClick={() => {
             setDisplayInputBoxPack(true);
+            setColumn('grill_pack');
+            console.log('to je ta', column, id);
           }}
           style={{ color: 'var(--color-red-800)' }}
         >

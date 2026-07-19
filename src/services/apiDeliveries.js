@@ -1,7 +1,7 @@
 import supabase from './supabase';
 export async function getDeliveries() {
   const { data, error } = await supabase.from('current_delivery').select('*');
-  // console.log(data);
+
   if (error) {
     console.log(error);
     throw new Error('nesto se nije skinulo sa supe');
@@ -10,7 +10,7 @@ export async function getDeliveries() {
 export async function updateField(column, columnValue, id) {
   switch (column) {
     case 'current_delivery': {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('current_delivery')
         .update({ current_delivery: columnValue })
         .select('*')
@@ -20,24 +20,23 @@ export async function updateField(column, columnValue, id) {
         console.log(error);
         throw new Error('nije se updatovalo polje trenutne dostave');
       }
-      break;
+      return data;
     }
     case 'name': {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('current_delivery')
         .update({ customer_name: columnValue })
-        .select('*')
-        .single()
-        .eq('customer_id', `${id}`);
+        .eq('customer_id', id)
+        .select();
 
       if (error) {
         console.log(error);
         throw new Error('nije se updatovalo polje ime');
       }
-      break;
+      return data;
     }
     case 'num_in_delivery': {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('current_delivery')
         .update({ num_in_delivery: columnValue })
         .select('*')
@@ -47,10 +46,10 @@ export async function updateField(column, columnValue, id) {
         console.log(error);
         throw new Error('nije se updatovalo polje rb');
       }
-      break;
+      return data;
     }
     case 'grill_pack': {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('current_delivery')
         .update({ gril_pack: columnValue })
         .select('*')
@@ -60,10 +59,10 @@ export async function updateField(column, columnValue, id) {
         console.log(error);
         throw new Error('nije se updatovalo polje gril pack');
       }
-      break;
+      return data;
     }
     case 'grill_quant': {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('current_delivery')
         .update({ grill_quant: columnValue })
         .select('*')
@@ -74,10 +73,10 @@ export async function updateField(column, columnValue, id) {
         console.log(error);
         throw new Error('nije se updatovalo polje gril quant');
       }
-      break;
+      return data;
     }
     case 'trad_pack': {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('current_delivery')
         .update({ trad_pack: columnValue })
         .select('*')
@@ -87,10 +86,10 @@ export async function updateField(column, columnValue, id) {
         console.log(error);
         throw new Error('nije se updatovalo polje sitan pack');
       }
-      break;
+      return data;
     }
     case 'trad_quant': {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('current_delivery')
         .update({ trad_quant: columnValue })
         .select('*')
@@ -100,10 +99,10 @@ export async function updateField(column, columnValue, id) {
         console.log(error);
         throw new Error('nije se updatovalo polje sitan quant');
       }
-      break;
+      return data;
     }
     case 'cream_quant': {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('current_delivery')
         .update({ cream_quant: Number(columnValue) })
         .select('*')
@@ -113,10 +112,10 @@ export async function updateField(column, columnValue, id) {
         console.log(error);
         throw new Error('nije se updatovalo polje uvara');
       }
-      break;
+      return data;
     }
     case 'customer_address': {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('current_delivery')
         .update({ customer_address: columnValue })
         .select('*')
@@ -127,10 +126,10 @@ export async function updateField(column, columnValue, id) {
         console.log(error);
         throw new Error('nije se updatovalo polje ADRESA');
       }
-      break;
+      return data;
     }
     case 'customer_telephone': {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('current_delivery')
         .update({ customer_telephone: columnValue })
         .select('*')
@@ -140,10 +139,10 @@ export async function updateField(column, columnValue, id) {
         console.log(error);
         throw new Error('nije se updatovalo polje rb');
       }
-      break;
+      return data;
     }
     case 'time_for_delivery': {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('current_delivery')
         .update({ time_for_delivery: columnValue })
         .select('*')
@@ -153,10 +152,10 @@ export async function updateField(column, columnValue, id) {
         console.log(error);
         throw new Error('nije se updatovalo polje rb');
       }
-      break;
+      return data;
     }
     case 'customer_note': {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('current_delivery')
         .update({ customer_note: columnValue })
         .select('*')
@@ -166,10 +165,10 @@ export async function updateField(column, columnValue, id) {
         console.log(error);
         throw new Error('nije se updajtovalo polje note');
       }
-      break;
+      return data;
     }
     case 'bill': {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('current_delivery')
         .update({ bill: columnValue })
         .select('*')
@@ -179,12 +178,12 @@ export async function updateField(column, columnValue, id) {
         console.log(error);
         throw new Error('nije se updajtovalo polje cene');
       }
-      break;
+      return data;
     }
   }
 }
 export async function insertRow(currentRow, data = {}, deliveryId) {
-  const { error } = await supabase
+  const { data: newData, error } = await supabase
     .from('current_delivery')
     .insert([
       {
@@ -210,6 +209,7 @@ export async function insertRow(currentRow, data = {}, deliveryId) {
     console.log(error);
     throw new Error('nije napravio novi red');
   }
+  return newData;
 }
 
 export async function removeRow(id) {
