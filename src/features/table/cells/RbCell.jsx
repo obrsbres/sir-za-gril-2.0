@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
+import { useQueryClient } from '@tanstack/react-query';
 
 import styled from 'styled-components';
 
-import { updateField } from '../../../services/apiDeliveries';
+import { useHotkey } from '@tanstack/react-hotkeys';
 
 import InputChangeValue from '../tableUIs/InputChangeValue';
-import { useSelector } from 'react-redux';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
-import { useHotkey } from '@tanstack/react-hotkeys';
+import { useUpdateDelivery } from '../../deliveries/useUpdateDelivery';
+
 const StyledCell = styled.td`
   border-style: solid;
   border-width: 1px;
@@ -27,23 +27,12 @@ function RbCell({ numInDelivery, id }) {
 
   const queryClient = useQueryClient();
 
-  const { isPending, mutate } = useMutation(
-    {
-      mutationFn: (newValue) => {
-        updateField('num_in_delivery', newValue, id);
-        setDisplayInputBox(false);
-      },
-      onSuccess: () => {
-        toast.success('Успешно промењен редни број доставе');
-      },
-    },
-    queryClient.invalidateQueries({
-      queryKey: ['current_delivery'],
-    })
-  );
+  const { mutate, isPending } = useUpdateDelivery();
+
   useHotkey('esc', () => setDisplayInputBox(false), {
     conflictBehavior: 'allow',
   });
+
   return (
     <StyledCell
       onClick={() => {
@@ -57,7 +46,12 @@ function RbCell({ numInDelivery, id }) {
           type="number"
           onBlur={() => setDisplayInputBox(false)}
           onSubmit={(newValue) => {
-            mutate(newValue);
+            mutate({
+              column: 'num_in_delivery',
+              columnValue: newValue,
+              id: id,
+            });
+            setDisplayInputBox(false);
           }}
           cellWidth="3rem"
         />

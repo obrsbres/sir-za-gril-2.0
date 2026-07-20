@@ -93,20 +93,28 @@ const P = styled.p`
 function CustomersData() {
   const pageSize = useScreenWidth();
   const isNotMobile = pageSize !== 'mobile';
+
   const showInputForm = useSelector((state) => state.inputForm.showInputForm);
   show();
-  const { isPending, error, deliveries } = useDeliveries();
+
   const [searchParams] = useSearchParams();
   const deliveryId = searchParams.get('sortBy') || '1';
+
+  const { isPending, error, deliveries } = useDeliveries();
+
   if (!deliveries) return;
+
+  if (isPending) return <Spinner />;
+
   const deliveryData = deliveries.filter(
     (delivery) => delivery.id_of_delivery === Number(deliveryId)
   );
   const customers = [...deliveryData].sort(
     (custA, custB) => custA.num_in_delivery - custB.num_in_delivery
   );
-  if (isPending) return <Spinner />;
+
   const numberOfCustomers = customers.length;
+
   return (
     <StyledCustomerData>
       <Container $pageSize={pageSize}>

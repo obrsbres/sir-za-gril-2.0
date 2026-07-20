@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useQueryClient } from '@tanstack/react-query';
 
 import styled from 'styled-components';
 
-import InputChangeValue from '../tableUIs/InputChangeValue';
-import { updateField } from '../../../services/apiDeliveries';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useHotkey } from '@tanstack/react-hotkeys';
+
+import InputChangeValue from '../tableUIs/InputChangeValue';
+import { useUpdateDelivery } from '../../deliveries/useUpdateDelivery';
 
 const StyledCell = styled.td`
   border-style: solid;
@@ -26,18 +26,7 @@ function TelephoneCell({ id, customerTelephone }) {
 
   const queryClient = useQueryClient();
 
-  const { isPending, mutate } = useMutation(
-    {
-      mutationFn: (newValue) => {
-        updateField('customer_telephone', newValue, id);
-        setDisplayInputBox(false);
-      },
-      onSuccess: () => {},
-    },
-    queryClient.invalidateQueries({
-      queryKey: ['current_delivery'],
-    })
-  );
+  const { mutate, isPending } = useUpdateDelivery();
 
   useHotkey('esc', () => setDisplayInputBox(false), {
     conflictBehavior: 'allow',
@@ -54,7 +43,12 @@ function TelephoneCell({ id, customerTelephone }) {
         <InputChangeValue
           type="text"
           onSubmit={(newValue) => {
-            mutate(newValue);
+            mutate({
+              column: 'customer_telephone',
+              columnValue: newValue,
+              id: id,
+            });
+            setDisplayInputBox(false);
           }}
           cellWidth="13rem"
         />

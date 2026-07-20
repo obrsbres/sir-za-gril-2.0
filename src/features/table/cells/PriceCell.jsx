@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 import styled from 'styled-components';
-import toast from 'react-hot-toast';
+
 import { useHotkey } from '@tanstack/react-hotkeys';
 
 import InputChangeValue from '../tableUIs/InputChangeValue';
-import { updateField } from '../../../services/apiDeliveries';
+import { useUpdateDelivery } from '../../deliveries/useUpdateDelivery';
 
 const StyledCell = styled.td`
   border-style: solid;
@@ -37,20 +36,7 @@ function PriceCell({ id, price, grilQuant, tradQuant, creamQuant }) {
 
   const queryClient = useQueryClient();
 
-  const { isPending, mutate } = useMutation(
-    {
-      mutationFn: (newValue) => {
-        setDisplayInputBox(false);
-        updateField('bill', newValue, id);
-      },
-      onSuccess: () => {
-        toast.success('Успешно промењено поље рачуна');
-      },
-    },
-    queryClient.invalidateQueries({
-      queryKey: ['current_delivery'],
-    })
-  );
+  const { mutate, isPending } = useUpdateDelivery();
 
   useHotkey('esc', () => setDisplayInputBox(false), {
     conflictBehavior: 'allow',
@@ -69,7 +55,7 @@ function PriceCell({ id, price, grilQuant, tradQuant, creamQuant }) {
           type="number"
           onBlur={() => setDisplayInputBox(false)}
           onSubmit={(newValue) => {
-            mutate(newValue, id);
+            mutate({ column: 'bill', columnValue: newValue, id: id });
             setDisplayInputBox(false);
           }}
           cellWidth="5rem"

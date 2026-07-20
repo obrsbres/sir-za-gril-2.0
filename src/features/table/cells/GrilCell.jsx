@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
+import { useQueryClient } from '@tanstack/react-query';
 
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import toast from 'react-hot-toast';
+import { useHotkey } from '@tanstack/react-hotkeys';
 
 import InputChangeValue from '../tableUIs/InputChangeValue';
-import { updateField } from '../../../services/apiDeliveries';
+
+import { useUpdateDelivery } from '../../deliveries/useUpdateDelivery';
 
 const StyledCell = styled.td`
   border-style: solid;
@@ -29,20 +29,17 @@ function GrilCell({ id, grillPack, grillQuant }) {
 
   const queryClient = useQueryClient();
 
-  const { isPending, mutate } = useMutation(
-    {
-      mutationFn: (newValue) => {
-        updateField(column, newValue, id);
-        column === 'grill_quant' && setDisplayInputBoxQuant(false);
-        column === 'grill_pack' && setDisplayInputBoxPack(false);
-      },
-      onSuccess: () => {
-        toast.success('Успешно промењени подаци за грил');
-      },
+  const { mutate, isPending } = useUpdateDelivery();
+
+  useHotkey(
+    'esc',
+    () => {
+      setDisplayInputBoxQuant(false);
+      setDisplayInputBoxPack(false);
     },
-    queryClient.invalidateQueries({
-      queryKey: ['current_delivery'],
-    })
+    {
+      conflictBehavior: 'allow',
+    }
   );
 
   return (
@@ -54,7 +51,8 @@ function GrilCell({ id, grillPack, grillQuant }) {
           type="number"
           onBlur={() => setDisplayInputBoxQuant(false)}
           onSubmit={(newValue) => {
-            mutate(newValue);
+            mutate({ column: 'grill_quant', columnValue: newValue, id: id });
+            setDisplayInputBoxQuant(false);
           }}
           cellWidth="3rem"
         />
@@ -77,7 +75,8 @@ function GrilCell({ id, grillPack, grillQuant }) {
           type="checkbox"
           onBlur={() => setDisplayInputBoxPack(false)}
           onSubmit={(newValue) => {
-            mutate(newValue);
+            mutate({ column: 'gril_pack', columnValue: newValue, id: id });
+            setDisplayInputBoxPack(false);
           }}
           cellWidth="6rem"
         />
@@ -86,7 +85,6 @@ function GrilCell({ id, grillPack, grillQuant }) {
           onClick={() => {
             setDisplayInputBoxPack(true);
             setColumn('grill_pack');
-            console.log('to je ta', column, id);
           }}
           style={{ color: 'var(--color-red-800)' }}
         >

@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
+import { useQueryClient } from '@tanstack/react-query';
 
 import styled from 'styled-components';
 
-import InputChangeValue from '../tableUIs/InputChangeValue';
-import { updateField } from '../../../services/apiDeliveries';
-import { formatTime } from '../../../utils/helpers';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import { useHotkey } from '@tanstack/react-hotkeys';
+
+import InputChangeValue from '../tableUIs/InputChangeValue';
+import { useUpdateDelivery } from '../../deliveries/useUpdateDelivery';
+import { formatTime } from '../../../utils/helpers';
 
 const StyledCell = styled.td`
   border-style: solid;
@@ -24,29 +25,18 @@ const StyledCell = styled.td`
 `;
 
 const DEFAULT_TIME = '19:00:00';
+
 function TimeCell({ id, timeForDelivery }) {
   const [displayInputBox, setDisplayInputBox] = useState(false);
 
   const queryClient = useQueryClient();
 
-  const { isPending, mutate } = useMutation(
-    {
-      mutationFn: (newValue) => {
-        updateField('time_for_delivery', newValue, id);
-        setDisplayInputBox(false);
-      },
-      onSuccess: () => {
-        toast.success('Успешно промењено време');
-      },
-    },
-    queryClient.invalidateQueries({
-      queryKey: ['current_delivery'],
-    })
-  );
+  const { mutate, isPending } = useUpdateDelivery();
 
   useHotkey('esc', () => setDisplayInputBox(false), {
     conflictBehavior: 'allow',
   });
+
   return (
     <StyledCell
       onClick={() => {
@@ -63,7 +53,12 @@ function TimeCell({ id, timeForDelivery }) {
           defaultValue={timeForDelivery}
           onBlur={() => setDisplayInputBox(false)}
           onSubmit={(newValue) => {
-            mutate(newValue);
+            mutate({
+              column: 'time_for_delivery',
+              columnValue: newValue,
+              id: id,
+            });
+            setDisplayInputBox(false);
           }}
           cellWidth="8rem"
         />

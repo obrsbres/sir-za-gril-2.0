@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useDispatch } from 'react-redux';
+import { useQueryClient } from '@tanstack/react-query';
 
 import styled from 'styled-components';
-import toast from 'react-hot-toast';
 import { useHotkey } from '@tanstack/react-hotkeys';
-
-import { updateField } from '../../../services/apiDeliveries';
 
 import InputChangeValue from '../tableUIs/InputChangeValue';
 import { sendCustomerForDeliveryView } from '../../delivery/customersSlice';
 import { hide } from '../../customer/customerSlice';
 import { useUpdateDelivery } from '../../deliveries/useUpdateDelivery';
+
 const StyledCell = styled.td`
   border-style: solid;
   border-width: 1px;
@@ -28,8 +26,6 @@ const StyledCell = styled.td`
 `;
 
 function CustNameCell({ name, id, customer }) {
-  // const newValue = useSelector((state) => state.customers.newValue);
-  // const [newValue, setNewValue] = useState('');
   const [displayInputBox, setDisplayInputBox] = useState(false);
 
   const queryClient = useQueryClient();
@@ -37,20 +33,11 @@ function CustNameCell({ name, id, customer }) {
   const dispatch = useDispatch();
 
   const { mutate, isPending } = useUpdateDelivery();
-  // const { isPending, mutate } = useMutation({
-  //   mutationFn: (newValue) => updateField('name', newValue, id),
-  //   onSuccess: () => {
-  //     toast.success('Успешно промењено име купца');
-  //     queryClient.invalidateQueries({
-  //       queryKey: ['current_delivery'],
-  //     });
-  //     setDisplayInputBox(false);
-  //   },
-  //   onError: (err) => toast.error(err.message),
-  // });
+
   useHotkey('esc', () => setDisplayInputBox(false), {
     conflictBehavior: 'allow',
   });
+
   function handleShowCustomer(customer) {
     dispatch(sendCustomerForDeliveryView(customer));
     dispatch(hide());
@@ -63,17 +50,18 @@ function CustNameCell({ name, id, customer }) {
       }}
     >
       <button>
-        <Link to='/customer'>🚙</Link>
+        <Link to="/customer">🚙</Link>
       </button>
       {displayInputBox && !isPending ? (
         <InputChangeValue
           placeholder={name}
-          type='text'
+          type="text"
           onBlur={() => setDisplayInputBox(false)}
           onSubmit={(newValue) => {
             mutate({ column: 'customer_name', columnValue: newValue, id: id });
+            setDisplayInputBox(false);
           }}
-          cellWidth='20rem'
+          cellWidth="20rem"
         />
       ) : (
         name

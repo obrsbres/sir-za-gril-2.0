@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 import styled from 'styled-components';
-import toast from 'react-hot-toast';
+
+import { useHotkey } from '@tanstack/react-hotkeys';
 
 import InputChangeValue from '../tableUIs/InputChangeValue';
-import { updateField } from '../../../services/apiDeliveries';
+import { useUpdateDelivery } from '../../deliveries/useUpdateDelivery';
 
 const StyledCell = styled.td`
   border-style: solid;
@@ -28,21 +29,7 @@ function TradCheeseCell({ id, tradPack, tradQuant }) {
 
   const queryClient = useQueryClient();
 
-  const { isPending, mutate } = useMutation(
-    {
-      mutationFn: (newValue) => {
-        updateField(column, newValue, id);
-        setDisplayInputBoxPack(false);
-        setDisplayInputBoxQuant(false);
-      },
-      onSuccess: () => {
-        toast.success('Успешно промењени подаци за ситан');
-      },
-    },
-    queryClient.invalidateQueries({
-      queryKey: ['current_delivery'],
-    })
-  );
+  const { mutate, isPending } = useUpdateDelivery();
 
   return (
     <StyledCell>
@@ -59,7 +46,8 @@ function TradCheeseCell({ id, tradPack, tradQuant }) {
             onBlur={() => setDisplayInputBoxQuant(false)}
             onSubmit={(newValue) => {
               setColumn('trad_quant');
-              mutate(newValue);
+              mutate({ column: 'trad_quant', columnValue: newValue, id: id });
+              setDisplayInputBoxQuant(false);
             }}
             cellWidth="3rem"
           />
@@ -79,7 +67,8 @@ function TradCheeseCell({ id, tradPack, tradQuant }) {
             onBlur={() => setDisplayInputBoxPack(false)}
             onSubmit={(newValue) => {
               setColumn('trad_pack');
-              mutate(newValue);
+              mutate({ column: 'trad_pack', columnValue: newValue, id: id });
+              setDisplayInputBoxPack(false);
             }}
             cellWidth="tr"
           />

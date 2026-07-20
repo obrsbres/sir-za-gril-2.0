@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 import styled from 'styled-components';
-import toast from 'react-hot-toast';
 
-import { updateField } from '../../../services/apiDeliveries';
 import InputChangeValue from '../tableUIs/InputChangeValue';
+import { useUpdateDelivery } from '../../deliveries/useUpdateDelivery';
+import { useHotkey } from '@tanstack/react-hotkeys';
 
 const StyledCell = styled.td`
   border-style: solid;
@@ -27,20 +27,11 @@ function NoteCell({ children, id, customerNote }) {
 
   const queryClient = useQueryClient();
 
-  const { isPending, mutate } = useMutation(
-    {
-      mutationFn: (newValue) => {
-        updateField('customer_note', newValue, id);
-        setDisplayInputBox(false);
-      },
-      onSuccess: () => {
-        toast.success('Успешно промењено поље напомене');
-      },
-    },
-    queryClient.invalidateQueries({
-      queryKey: ['current_delivery'],
-    })
-  );
+  const { mutate, isPending } = useUpdateDelivery();
+
+  useHotkey('esc', () => setDisplayInputBox(false), {
+    conflictBehavior: 'allow',
+  });
 
   return (
     <StyledCell
@@ -54,7 +45,8 @@ function NoteCell({ children, id, customerNote }) {
           type="text"
           onBlur={() => setDisplayInputBox(false)}
           onSubmit={(newValue) => {
-            mutate(newValue, id);
+            mutate({ column: 'customer_note', columnValue: newValue, id: id });
+            setDisplayInputBox(false);
           }}
           cellWidth="15rem"
         />

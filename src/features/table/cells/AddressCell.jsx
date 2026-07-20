@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 import styled from 'styled-components';
-import toast from 'react-hot-toast';
-import { useHotkey } from '@tanstack/react-hotkeys';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { updateField } from '../../../services/apiDeliveries';
+import { useHotkey } from '@tanstack/react-hotkeys';
+
+import { useQueryClient } from '@tanstack/react-query';
 
 import InputChangeValue from '../tableUIs/InputChangeValue';
-import { useForm } from 'react-hook-form';
+
+import { useUpdateDelivery } from '../../deliveries/useUpdateDelivery';
 
 const StyledAddressCell = styled.td`
   border-style: solid;
@@ -29,20 +28,7 @@ function AddressCell({ id, customerAddress }) {
 
   const queryClient = useQueryClient();
 
-  const { isPending, mutate } = useMutation(
-    {
-      mutationFn: (newValue) => {
-        updateField('customer_address', newValue, id);
-      },
-      onSuccess: () => {
-        setDisplayInputBox(false);
-        toast.success('Успешно промењено поље адресе купца');
-      },
-    },
-    queryClient.invalidateQueries({
-      queryKey: ['current_delivery'],
-    })
-  );
+  const { mutate, isPending } = useUpdateDelivery();
 
   useHotkey('esc', () => setDisplayInputBox(false), {
     conflictBehavior: 'allow',
@@ -61,7 +47,12 @@ function AddressCell({ id, customerAddress }) {
           type="text"
           onBlur={() => setDisplayInputBox(false)}
           onSubmit={(newValue) => {
-            mutate(newValue);
+            mutate({
+              column: 'customer_address',
+              columnValue: newValue,
+              id: id,
+            });
+            setDisplayInputBox();
           }}
           cellWidth="13rem"
         />

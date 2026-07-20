@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 import styled from 'styled-components';
-import toast from 'react-hot-toast';
 import { useHotkey } from '@tanstack/react-hotkeys';
 
-import { updateField } from '../../../services/apiDeliveries';
-
 import InputChangeValue from '../tableUIs/InputChangeValue';
+import { useUpdateDelivery } from '../../deliveries/useUpdateDelivery';
 
 const StyledCell = styled.td`
   border-style: solid;
@@ -28,20 +25,8 @@ function CreamCell({ id, creamQuant }) {
 
   const queryClient = useQueryClient();
 
-  const { isPending, mutate } = useMutation(
-    {
-      mutationFn: (newValue) => {
-        updateField('cream_quant', newValue, id);
-        setDisplayInputBox(false);
-      },
-      onSuccess: () => {
-        toast.success('Успешно промењено поље уваре');
-      },
-    },
-    queryClient.invalidateQueries({
-      queryKey: ['current_delivery'],
-    })
-  );
+  const { mutate, isPending } = useUpdateDelivery();
+
   useHotkey('esc', () => setDisplayInputBox(false), {
     conflictBehavior: 'allow',
   });
@@ -59,7 +44,8 @@ function CreamCell({ id, creamQuant }) {
           type="number"
           onBlur={() => setDisplayInputBox(false)}
           onSubmit={(newValue) => {
-            mutate(newValue);
+            mutate({ column: 'cream_quant', columnValue: newValue, id: id });
+            setDisplayInputBox(false);
           }}
           cellWidth="3rem"
         />
