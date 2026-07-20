@@ -9,6 +9,7 @@ export function useDeliveries() {
   } = useQuery({
     queryKey: ['current_delivery'],
     queryFn: getDeliveries,
+    staleTime: 100,
   });
 
   return { isPending, error, deliveries };

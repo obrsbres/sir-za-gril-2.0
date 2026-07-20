@@ -21,7 +21,7 @@ function InputChangeValue({
 }) {
   const [newValue, setNewValue] = useState('');
   const showForTrad = cellWidth === 'tr';
-  console.log(cellWidth);
+
   if (type === 'checkbox')
     return (
       <form
@@ -50,11 +50,11 @@ function InputChangeValue({
               onSubmit(e.target.value);
             }}
             type={type}
-            id="0.5kg"
-            name="0.5kg"
-            value="0.5kg"
+            id='0.5kg'
+            name='0.5kg'
+            value='0.5kg'
           ></StyledInput>
-          <label htmlFor="0.5kg">0.5</label>
+          <label htmlFor='0.5kg'>0.5</label>
         </div>
         <div
           style={{
@@ -70,11 +70,11 @@ function InputChangeValue({
               onSubmit(e.target.value);
             }}
             type={type}
-            id="kg"
-            name="kg"
-            value="kg"
+            id='kg'
+            name='kg'
+            value='kg'
           ></StyledInput>
-          <label htmlFor="kg">kg</label>
+          <label htmlFor='kg'>kg</label>
         </div>
 
         <div
@@ -91,11 +91,11 @@ function InputChangeValue({
               onSubmit(e.target.value);
             }}
             type={type}
-            id="ком"
-            name="ком"
-            value="ком"
+            id='ком'
+            name='ком'
+            value='ком'
           ></StyledInput>
-          <label htmlFor="ком">ком</label>
+          <label htmlFor='ком'>ком</label>
         </div>
       </form>
     );

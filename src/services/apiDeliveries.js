@@ -7,7 +7,7 @@ export async function getDeliveries() {
     throw new Error('nesto se nije skinulo sa supe');
   } else return data;
 }
-export async function updateField(column, columnValue, id) {
+export async function updateField({ column, columnValue, id }) {
   switch (column) {
     case 'current_delivery': {
       const { data, error } = await supabase
@@ -22,7 +22,7 @@ export async function updateField(column, columnValue, id) {
       }
       return data;
     }
-    case 'name': {
+    case 'customer_name': {
       const { data, error } = await supabase
         .from('current_delivery')
         .update({ customer_name: columnValue })

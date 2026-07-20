@@ -13,6 +13,7 @@ import { updateField } from '../../../services/apiDeliveries';
 import InputChangeValue from '../tableUIs/InputChangeValue';
 import { sendCustomerForDeliveryView } from '../../delivery/customersSlice';
 import { hide } from '../../customer/customerSlice';
+import { useUpdateDelivery } from '../../deliveries/useUpdateDelivery';
 const StyledCell = styled.td`
   border-style: solid;
   border-width: 1px;
@@ -35,17 +36,18 @@ function CustNameCell({ name, id, customer }) {
 
   const dispatch = useDispatch();
 
-  const { isPending, mutate } = useMutation({
-    mutationFn: (newValue) => updateField('name', newValue, id),
-    onSuccess: () => {
-      toast.success('Успешно промењено име купца');
-      queryClient.invalidateQueries({
-        queryKey: ['current_delivery'],
-      });
-      setDisplayInputBox(false);
-    },
-    onError: (err) => toast.error(err.message),
-  });
+  const { mutate, isPending } = useUpdateDelivery();
+  // const { isPending, mutate } = useMutation({
+  //   mutationFn: (newValue) => updateField('name', newValue, id),
+  //   onSuccess: () => {
+  //     toast.success('Успешно промењено име купца');
+  //     queryClient.invalidateQueries({
+  //       queryKey: ['current_delivery'],
+  //     });
+  //     setDisplayInputBox(false);
+  //   },
+  //   onError: (err) => toast.error(err.message),
+  // });
   useHotkey('esc', () => setDisplayInputBox(false), {
     conflictBehavior: 'allow',
   });
@@ -61,17 +63,17 @@ function CustNameCell({ name, id, customer }) {
       }}
     >
       <button>
-        <Link to="/customer">🚙</Link>
+        <Link to='/customer'>🚙</Link>
       </button>
       {displayInputBox && !isPending ? (
         <InputChangeValue
           placeholder={name}
-          type="text"
+          type='text'
           onBlur={() => setDisplayInputBox(false)}
           onSubmit={(newValue) => {
-            mutate(newValue);
+            mutate({ column: 'customer_name', columnValue: newValue, id: id });
           }}
-          cellWidth="20rem"
+          cellWidth='20rem'
         />
       ) : (
         name
