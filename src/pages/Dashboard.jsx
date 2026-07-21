@@ -23,6 +23,7 @@ const StyeldDashboard = styled.div`
   grid-template-rows: 100vh 60vh 100vh 60vh 20vh 80vh 60vh 30vh;
   background-color: #ebc971;
   font-family: 'Lora', serif;
+  overflow-y: scroll;
 `;
 
 function Dashboard() {

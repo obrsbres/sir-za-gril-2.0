@@ -15,36 +15,44 @@ import useScreenWidth from '../hooks/useScreenWidth';
 import { useDeliveriesInfo } from '../features/deliveries/useDeliveriesInfo';
 
 const StyledHeader = styled.header`
-  margin: 2px 1px 2px 1px;
+  grid-row: 1/1;
+  top: 0;
+  left: 0;
   display: grid;
-  grid-template-columns: 20rem 20rem 1fr 20rem 30%;
+  grid-template-columns: 5fr 2fr 2fr;
   grid-template-rows: 1fr;
-  gap: 2rem;
+  gap: 1rem;
   width: 100vw;
   height: auto;
-  padding: 0.5rem;
-  justify-content: start;
+  padding: 0.5rem 1%;
+  justify-items: start;
   align-items: center;
   background-color: var(--color-brand-100);
-  /* padding: 1rem; */
-  /* border-bottom: 1px solid var(--color-green-700); */
+`;
+const StyledButtonContainer = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+  gap: 1rem;
+  border: none;
+  background-color: var(--color-brand-100);
 `;
 const StyledButtonHeader = styled.button`
-  border: 1px solid var(--color-indigo-700);
+  border: none;
   border-radius: 8px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   font-size: 1.6rem;
   font-weight: bolder;
-  /* text-transform: uppercase; */
-  color: #1f1f1f;
   background-color: var(--color-indigo-700);
   color: var(--color-indigo-100);
   height: auto;
-  padding: 0.5rem 1rem;
-  width: fit-content;
-  flex-wrap: wrap;
+  font-size: 1.4rem;
+  font-weight: 500;
+  padding: 0.8rem 1.2rem;
+  width: 12rem;
 `;
 
 function Header() {
@@ -74,19 +82,22 @@ function Header() {
 
   return (
     <StyledHeader $pageSize={pageSize}>
-      {!isSidebarShown && (
-        <StyledButtonHeader onClick={showSidebar}>
-          Прикажи мени
-        </StyledButtonHeader>
-      )}
+      <StyledButtonContainer>
+        {!isSidebarShown && (
+          <StyledButtonHeader onClick={showSidebar}>
+            Прикажи мени
+          </StyledButtonHeader>
+        )}
 
-      <StyledButtonHeader onClick={() => navigate(linkedPage)}>
-        {`${linkedPage === 'dashboard' ? 'Почетна' : 'Достава'}`}
-      </StyledButtonHeader>
-      <div></div>
-      <StyledButtonHeader onClick={() => navigate('/delivery')}>
-        Нова достава
-      </StyledButtonHeader>
+        <StyledButtonHeader onClick={() => navigate(linkedPage)}>
+          {`${linkedPage === 'dashboard' ? 'Почетна' : 'Достава'}`}
+        </StyledButtonHeader>
+        <div></div>
+        <StyledButtonHeader onClick={() => navigate('/delivery')}>
+          Нова достава
+        </StyledButtonHeader>
+      </StyledButtonContainer>
+      <Filter />
       {deliveriesInfo && (
         <SortBy
           options={deliveriesInfo?.map((delivery) => ({

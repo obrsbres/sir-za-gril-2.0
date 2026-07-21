@@ -9,29 +9,35 @@ import Sidebar from './Sidebar';
 
 import useScreenWidth from '../hooks/useScreenWidth';
 
-const StyledAppLayout = styled.div`
-  display: flex;
-  height: fill-available;
-  width: fill-available;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-`;
 const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 5rem 1fr;
+  justify-items: start;
   align-items: start;
   overflow: auto;
   height: 100vh;
   width: 100vw;
 `;
 
+const StyledAppLayout = styled.div`
+  grid-row: 2/2;
+  position: relative;
+  display: flex;
+  height: fill-available;
+  width: fill-available;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
+`;
+
 const StyledMain = styled.main`
   background-color: var(--color-grey-50);
-  position: sticky;
+  position: relative;
   width: fill-available;
   height: auto;
+  overflow-y: auto;
 `;
 
 function AppLayout() {

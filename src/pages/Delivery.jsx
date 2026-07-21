@@ -23,8 +23,6 @@ const Container = styled.div`
 `;
 
 const DeliveriesList = styled.ul`
-  /* justify-self: flex-start;
-  align-self: center; */
   width: fill-available;
   height: 50vh;
   overflow-y: auto;
