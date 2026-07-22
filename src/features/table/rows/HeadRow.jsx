@@ -58,11 +58,11 @@ function HeadRow() {
       <StyledHeadCell>КУПАЦ</StyledHeadCell>
       <StyledHeadCell>
         <p>ГРИЛ</p>
-        <p>КОЛ | ПАК</p>
+        <p style={{ fontSize: '1rem' }}>КОЛ | ПАК</p>
       </StyledHeadCell>
       <StyledHeadCell>
         <p>СИТАН</p>
-        <p>КОЛ | ПАК</p>
+        <p style={{ fontSize: '1rem' }}>КОЛ | ПАК</p>
       </StyledHeadCell>
       <StyledHeadCell>УВАРА</StyledHeadCell>
       {isNotMobile && <StyledHeadCell>АДРЕСА</StyledHeadCell>}

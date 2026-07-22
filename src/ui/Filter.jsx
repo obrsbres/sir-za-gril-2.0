@@ -36,27 +36,23 @@ const FilterButton = styled.button`
   }
 `;
 
-function Filter({ filterField }) {
+function Filter({ filterField, elements }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentFilter = searchParams.get(filterField) || 'all';
   function handleFilterChange(filter) {
-    if (searchParams.get('page')) searchParams.set('page', 1);
+    if (!searchParams.get(filterField)) searchParams.set(filterField, 1);
     searchParams.set(filterField, filter);
     setSearchParams(searchParams);
   }
-  const elements = [
-    { description: 'dostava1', criteria: '1' },
-    { description: 'dostava2', criteria: '2' },
-    { description: 'dostava3', criteria: '3' },
-  ];
+  console.log(elements);
   return (
     <StyledFilter>
       {elements?.map((element) => (
         <FilterButton
-          key={element.criteria}
-          onClick={() => handleFilterChange(element.criteria)}
-          active={currentFilter === element.criteria}
-          disabled={currentFilter === element.criteria}
+          key={element.value}
+          onClick={() => handleFilterChange(element.value)}
+          active={currentFilter === element.value}
+          disabled={currentFilter === element.value}
         >
           {element.description}
         </FilterButton>

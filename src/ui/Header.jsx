@@ -97,8 +97,16 @@ function Header() {
           Нова достава
         </StyledButtonHeader>
       </StyledButtonContainer>
-      <Filter />
-      {deliveriesInfo && (
+      {/* {deliveriesInfo && (
+        <Filter
+          filterField={'sortBy'}
+          elements={deliveriesInfo?.map((delivery) => ({
+            value: delivery.id_of_delivery,
+            description: delivery.delvery_start_day,
+          }))}
+        />
+      )} */}
+      {deliveriesInfo && isNotMobile && (
         <SortBy
           options={deliveriesInfo?.map((delivery) => ({
             value: delivery.id_of_delivery,

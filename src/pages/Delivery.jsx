@@ -29,8 +29,9 @@ const DeliveriesList = styled.ul`
   overflow-x: auto;
 `;
 
-function Delivery() {
+function Delivery({ defaultState = 'delivery-form' }) {
   const { deliveries, isPending } = useDeliveriesInfo();
+
   if (isPending) return <Spinner />;
   if (!deliveries) return;
   return (
@@ -64,7 +65,7 @@ function Delivery() {
         </Table>
       </DeliveriesList>
 
-      <Modal>
+      <Modal defaultState={defaultState}>
         <Modal.Open opens='delivery-form'>
           <Button $variation='primary'>Додај нову доставу</Button>
         </Modal.Open>
