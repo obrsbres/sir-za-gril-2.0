@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -11,6 +11,7 @@ import DeliveryRow from '../features/deliveries/DeliveryRow';
 import Table from '../ui/Table';
 
 import { useDeliveriesInfo } from '../features/deliveries/useDeliveriesInfo';
+import { useLocation } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -29,8 +30,10 @@ const DeliveriesList = styled.ul`
   overflow-x: auto;
 `;
 
-function Delivery({ defaultState = 'delivery-form' }) {
+function Delivery() {
   const { deliveries, isPending } = useDeliveriesInfo();
+  const location = useLocation();
+  const formState = location.state?.formState;
 
   if (isPending) return <Spinner />;
   if (!deliveries) return;
@@ -38,7 +41,7 @@ function Delivery({ defaultState = 'delivery-form' }) {
     <Container>
       <Table
         style={{ width: 'fillAvailable' }}
-        $columns='2fr 1.8fr 2.2fr 3fr 3fr 1fr'
+        $columns="2fr 1.8fr 2.2fr 3fr 3fr 1fr"
       >
         <Table.Header>
           <div>Ид доставе</div>
@@ -50,12 +53,12 @@ function Delivery({ defaultState = 'delivery-form' }) {
         </Table.Header>
       </Table>
       <DeliveriesList>
-        <Table $columns='2fr 1.8fr 2.2fr 3fr 3fr 1fr'>
+        <Table $columns="2fr 1.8fr 2.2fr 3fr 3fr 1fr">
           <Table.Body
             data={deliveries}
             render={(delivery) => (
               <DeliveryRow
-                as='row'
+                as="row"
                 key={delivery.id_of_delivery}
                 delivery={delivery}
                 numOfDeliveries={deliveries.length}
@@ -65,11 +68,11 @@ function Delivery({ defaultState = 'delivery-form' }) {
         </Table>
       </DeliveriesList>
 
-      <Modal defaultState={defaultState}>
-        <Modal.Open opens='delivery-form'>
-          <Button $variation='primary'>Додај нову доставу</Button>
+      <Modal defaultState={formState}>
+        <Modal.Open opens="delivery-form">
+          <Button $variation="primary">Додај нову доставу</Button>
         </Modal.Open>
-        <Modal.Window name='delivery-form'>
+        <Modal.Window name="delivery-form">
           <CreateDeliveryForm numOfDeliveries={deliveries.length} />
         </Modal.Window>
       </Modal>

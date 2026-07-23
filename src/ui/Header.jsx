@@ -93,7 +93,14 @@ function Header() {
           {`${linkedPage === 'dashboard' ? 'Почетна' : 'Достава'}`}
         </StyledButtonHeader>
         <div></div>
-        <StyledButtonHeader onClick={() => navigate('/delivery')}>
+        <StyledButtonHeader
+          onClick={() =>
+            navigate('/delivery', {
+              state: { formState: 'delivery-form' },
+              replace: true,
+            })
+          }
+        >
           Нова достава
         </StyledButtonHeader>
       </StyledButtonContainer>

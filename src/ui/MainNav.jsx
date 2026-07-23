@@ -65,7 +65,7 @@ function MainNav() {
   return (
     <NavList>
       <li>
-        <StyledNavLink $pageSize={pageSize} to='/dashboard'>
+        <StyledNavLink $pageSize={pageSize} to="/dashboard">
           <HiOutlineHome />
           {isNotMobile && <span>Почетна</span>}
         </StyledNavLink>
@@ -85,13 +85,13 @@ function MainNav() {
         </StyledNavLink>
       </li>
       <li>
-        <StyledNavLink to='/delivery'>
+        <StyledNavLink to="/delivery">
           <HiOutlineUser />
           {isNotMobile && <span>Све доставе</span>}
         </StyledNavLink>
       </li>
       <li>
-        <StyledNavLink to='/summary'>
+        <StyledNavLink to="/summary" state={{ formState: '' }} replace="true">
           <HiOutlineCog8Tooth />
           {isNotMobile && <span>Збрини преглед</span>}
         </StyledNavLink>

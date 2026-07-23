@@ -25,7 +25,7 @@ const StyledCell = styled.td`
   align-items: center;
 `;
 
-function CustNameCell({ name, id, customer }) {
+function CustNameCell({ name, id, fd }) {
   const [displayInputBox, setDisplayInputBox] = useState(false);
 
   const queryClient = useQueryClient();
