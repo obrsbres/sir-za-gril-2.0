@@ -1,4 +1,4 @@
-import { NavLink, useSearchParams } from 'react-router-dom';
+import { Link, NavLink, useSearchParams, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { HiOutlineHome } from 'react-icons/hi2';
 import { HiOutlineHomeModern } from 'react-icons/hi2';
@@ -56,12 +56,53 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
+const StyledLink = styled(Link)`
+  &:link,
+  &:visited {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    color: var(--color-grey-600);
+    height: ${(props) => (props.$pageSize === 'mobile' ? '5rem' : '')};
+    font-size: ${(props) => (props.$pageSize === 'mobile' ? '5rem' : '1.6rem')};
+    font-weight: 500;
+    padding: 1.2rem 2.4rem;
+    transition: all 0.3s;
+  }
+
+  /* This works because react-router places the active class on the active NavLink */
+  &:hover,
+  &:active,
+  &.active:link,
+  &.active:visited {
+    color: var(--color-grey-800);
+    background-color: var(--color-grey-50);
+    border-radius: var(--border-radius-sm);
+  }
+
+  & svg {
+    width: 2.4rem;
+    height: 2.4rem;
+    color: var(--color-grey-400);
+    transition: all 0.3s;
+  }
+
+  &:hover svg,
+  &:active svg,
+  &.active:link svg,
+  &.active:visited svg {
+    color: var(--color-brand-600);
+  }
+`;
 function MainNav() {
+  const location = useLocation();
+
   const customer = useSelector((state) => state.customers.customerInDelivery);
   const pageSize = useScreenWidth();
   const isNotMobile = pageSize !== 'mobile';
   const [searchParams] = useSearchParams();
   const sortBy = searchParams.get('sortBy');
+
   return (
     <NavList>
       <li>
@@ -91,10 +132,10 @@ function MainNav() {
         </StyledNavLink>
       </li>
       <li>
-        <StyledNavLink to="/summary" state={{ formState: '' }} replace="true">
+        <StyledLink to={`/summary${location.search}`}>
           <HiOutlineCog8Tooth />
           {isNotMobile && <span>Збрини преглед</span>}
-        </StyledNavLink>
+        </StyledLink>
       </li>
     </NavList>
   );

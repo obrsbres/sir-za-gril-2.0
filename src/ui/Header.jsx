@@ -29,7 +29,7 @@ const StyledHeader = styled.header`
   align-items: center;
   background-color: var(--color-brand-100);
 `;
-const StyledButtonContainer = styled.button`
+const StyledButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

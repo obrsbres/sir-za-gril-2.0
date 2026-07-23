@@ -12,8 +12,8 @@ function SortBy({ options }) {
     <Select
       options={options}
       value={sortBy}
-      onChange={handleChange}
-      type='white'
+      onChange={(e) => handleChange(e)}
+      type="white"
     />
   );
 }

@@ -7,7 +7,7 @@ export async function getDeliveries() {
     throw new Error('nesto se nije skinulo sa supe');
   } else return data;
 }
-export async function getSpecificDelivery(deliveryId) {
+export async function getSpecificDelivery({ deliveryId }) {
   console.log(deliveryId);
   const { data, error } = await supabase
     .from('current_delivery')
