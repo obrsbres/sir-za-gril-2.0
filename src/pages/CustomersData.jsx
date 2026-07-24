@@ -140,7 +140,11 @@ function CustomersData() {
             ))}
           </Tbody>
           <Tfoot>
-            <Row type="foot" numOfDeliveries={customers.length} />
+            <Row
+              type="foot"
+              numOfDeliveries={customers.length}
+              deliveryId={deliveryId}
+            />
           </Tfoot>
         </Table>
         {isNotMobile && <ImgSpining src="/spinner.png" alt="spinning-cheese" />}

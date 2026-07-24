@@ -75,7 +75,7 @@ function GrilCell({ id, grillPack, grillQuant }) {
           type="checkbox"
           onBlur={() => setDisplayInputBoxPack(false)}
           onSubmit={(newValue) => {
-            mutate({ column: 'gril_pack', columnValue: newValue, id: id });
+            mutate({ column: 'grill_pack', columnValue: newValue, id: id });
             setDisplayInputBoxPack(false);
           }}
           cellWidth="6rem"

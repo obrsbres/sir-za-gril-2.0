@@ -84,9 +84,7 @@ function Header() {
     <StyledHeader $pageSize={pageSize}>
       <StyledButtonContainer>
         {!isSidebarShown && (
-          <StyledButtonHeader onClick={showSidebar}>
-            Прикажи мени
-          </StyledButtonHeader>
+          <StyledButtonHeader onClick={showSidebar}>Мени</StyledButtonHeader>
         )}
 
         <StyledButtonHeader onClick={() => navigate(linkedPage)}>

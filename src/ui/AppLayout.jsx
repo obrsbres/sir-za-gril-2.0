@@ -12,7 +12,8 @@ import useScreenWidth from '../hooks/useScreenWidth';
 const StyledContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 5rem 1fr;
+  grid-template-rows: 8% 1fr;
+  gap: 2px;
   justify-items: start;
   align-items: start;
   overflow: auto;
