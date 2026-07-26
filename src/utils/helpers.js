@@ -28,10 +28,10 @@ import { format } from 'date-fns';
 
 export const formatCurrency = (value, cur) =>
   new Intl.NumberFormat('sr', { style: 'currency', currency: cur }).format(
-    value,
+    value
   );
 
-export const formatDate = (value, length) => {
+export const formatDate = (value, length = 'long') => {
   let lengthString;
   if (length === 'short') lengthString = 'dd MMM';
   if (length === 'long') lengthString = 'dd MMM yyyy';

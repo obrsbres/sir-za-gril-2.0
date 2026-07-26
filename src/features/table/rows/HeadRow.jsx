@@ -20,8 +20,8 @@ const StyledHeadRow = styled.tr`
       ? '2rem 14rem 8rem 8rem 5rem'
       : '3rem 20rem 8rem 8rem 7rem 15rem 11rem 10rem 20rem 6rem 3rem'};
   grid-template-rows: 4rem;
-  background-color: var(--color-silver-700);
-  color: var(--color-silver-100);
+  background-color: var(--color-blue-700);
+  color: var(--color-blue-100);
 `;
 
 export const StyledHeadCell = styled.td`

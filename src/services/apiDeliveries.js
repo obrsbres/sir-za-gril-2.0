@@ -194,6 +194,7 @@ export async function updateField({ column, columnValue, id }) {
   }
 }
 export async function insertRow(currentRow, data = {}, deliveryId) {
+  console.log(currentRow, data, deliveryId);
   const { data: newData, error } = await supabase
     .from('current_delivery')
     .insert([
@@ -201,17 +202,17 @@ export async function insertRow(currentRow, data = {}, deliveryId) {
         customer_id: Number(new Date()),
         num_in_delivery: currentRow + 1,
         customer_name: data.name,
-        grill_quant: data.gril,
+        grill_quant: Number(data.gril),
         // gril_pack: data.grilPack,
-        trad_quant: data.trad,
+        trad_quant: Number(data.trad),
         // trad_pack: data.tradPack,
         customer_address: data.add,
-        customer_telephone: data.tel,
+        customer_telephone: Number(data.tel),
         time_for_delivery: data.time,
         customer_note: data.note,
-        bill: data.price,
-        cream_quant: data.cream,
-        id_of_delivery: deliveryId,
+        bill: Number(data.price),
+        cream_quant: Number(data.cream),
+        id_of_delivery: Number(deliveryId),
       },
     ])
     .select();

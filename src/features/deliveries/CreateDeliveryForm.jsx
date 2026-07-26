@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-// import { useContext } from 'react';
 
 import Input from '../../ui/Input';
 import Form from '../../ui/Form';
@@ -32,7 +31,7 @@ function CreateDeliveryForm({
             reset();
             onCloseModal?.();
           },
-        },
+        }
       );
     if (!id)
       createDelivery(
@@ -42,7 +41,7 @@ function CreateDeliveryForm({
             reset();
             onCloseModal?.();
           },
-        },
+        }
       );
   }
 
@@ -55,10 +54,10 @@ function CreateDeliveryForm({
       onSubmit={handleSubmit(onSubmit, onError)}
       type={onCloseModal ? 'modal' : 'regular'}
     >
-      <FormRow label='Датум почетка доставе' error={errors?.startDay?.message}>
+      <FormRow label="Датум почетка доставе" error={errors?.startDay?.message}>
         <Input
-          type='date'
-          id='startDay'
+          type="date"
+          id="startDay"
           disabled={isPending}
           placeholder={oldData?.startDay}
           {...register('startDay', {
@@ -67,10 +66,10 @@ function CreateDeliveryForm({
         />
       </FormRow>
 
-      <FormRow label='Датум завршетка доставе' error={errors?.endDay?.message}>
+      <FormRow label="Датум завршетка доставе" error={errors?.endDay?.message}>
         <Input
-          type='date'
-          id='endDay'
+          type="date"
+          id="endDay"
           disabled={isPending}
           placeholder={oldData?.endDay}
           {...register('endDay', {
@@ -80,12 +79,12 @@ function CreateDeliveryForm({
       </FormRow>
 
       <FormRow
-        label='Оквиран број достава'
+        label="Оквиран број достава"
         error={errors?.numOfCustomers?.message}
       >
         <Input
-          type='number'
-          id='numOfCustomers'
+          type="number"
+          id="numOfCustomers"
           disabled={isPending}
           placeholder={oldData?.numOfCustomers}
           {...register('numOfCustomers', {
@@ -101,8 +100,8 @@ function CreateDeliveryForm({
       <FormRow>
         {/* type is an HTML attribute! */}
         <Button
-          variation='secondary'
-          type='reset'
+          variation="secondary"
+          type="reset"
           onClick={() => onCloseModal?.()}
         >
           Одустани
