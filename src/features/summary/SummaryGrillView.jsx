@@ -17,9 +17,7 @@ export const StyledGrillLayout = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  span {
-    color: var(--color-yellow-800);
-  }
+  row-gap: 3px;
 `;
 
 export function SummaryGrillView({ children }) {

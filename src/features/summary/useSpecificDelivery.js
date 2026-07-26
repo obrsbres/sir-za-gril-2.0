@@ -1,8 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getSpecificDelivery } from '../../services/apiDeliveries';
 export function useSpecificDelivery({ deliveryId }) {
-  console.log(deliveryId);
-
   const {
     isPending,
     data: delivery,
