@@ -19,6 +19,18 @@ const StyledContainer = styled.div`
   overflow: auto;
   height: 100vh;
   width: 100vw;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif;
 `;
 
 const StyledAppLayout = styled.div`

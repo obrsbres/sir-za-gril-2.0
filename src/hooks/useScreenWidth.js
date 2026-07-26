@@ -5,18 +5,15 @@ export default function useScreenWidth() {
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
+
     return () => window.removeEventListener('resize', handleResize); // Cleanup the listener on component unmount
-    
-  
-
-
   }, []);
 
   if (screenWidth < 600) {
-    return ('mobile');
+    return 'mobile';
   } else if (screenWidth < 1024) {
-    return ('tablet');
+    return 'tablet';
   } else {
-    return ('desktop');
+    return 'desktop';
   }
 }
