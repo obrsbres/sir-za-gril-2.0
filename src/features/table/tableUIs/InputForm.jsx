@@ -73,7 +73,7 @@ function InputForm({ numberOfCustomers, deliveryId }) {
   const { register, handleSubmit, formState, reset } = useForm();
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
-
+  console.log(deliveryId);
   function onSubmit(data) {
     mutate(data);
     reset();

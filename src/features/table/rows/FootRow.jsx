@@ -25,7 +25,6 @@ const StyledFootRow = styled.tr`
   }
 `;
 function FootRow({ numOfDeliveries }) {
-  console.log(numOfDeliveries);
   const isMobile = useScreenWidth();
 
   return (

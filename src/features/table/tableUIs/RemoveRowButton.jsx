@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import React from 'react';
-/* eslint-disable react/prop-types */
 
 const StyledRemoveRowButton = styled.button`
   /* background: none; */

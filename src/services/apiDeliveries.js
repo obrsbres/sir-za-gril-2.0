@@ -8,7 +8,6 @@ export async function getDeliveries() {
   } else return data;
 }
 export async function getSpecificDelivery({ deliveryId }) {
-  console.log(deliveryId);
   const { data, error } = await supabase
     .from('current_delivery')
     .select('*')

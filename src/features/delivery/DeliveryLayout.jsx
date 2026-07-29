@@ -96,10 +96,10 @@ function DeliveryLayout() {
   if (isPending) return <Spinner />;
 
   const deliveryData = deliveries.filter(
-    (delivery) => delivery.id_of_delivery === Number(deliveryId)
+    (delivery) => delivery.id_of_delivery === Number(deliveryId),
   );
   const customers = [...deliveryData].sort(
-    (custA, custB) => custA.num_in_delivery - custB.num_in_delivery
+    (custA, custB) => custA.num_in_delivery - custB.num_in_delivery,
   );
 
   const numberOfCustomers = customers.length;
@@ -116,12 +116,12 @@ function DeliveryLayout() {
         )}
         <Table style={{ gridRow: 2, gridColumn: 1 }}>
           <Thead>
-            <Row type="head" />
+            <Row type='head' />
           </Thead>
           <Tbody>
             {customers.map((customer) => (
               <Row
-                type="body"
+                type='body'
                 customer={customer}
                 numOfDeliveries={customers.length}
                 key={customer.customer_id}
@@ -129,10 +129,10 @@ function DeliveryLayout() {
             ))}
           </Tbody>
           <Tfoot>
-            <Row type="foot" numOfDeliveries={customers.length} />
+            <Row type='foot' numOfDeliveries={customers.length} />
           </Tfoot>
         </Table>
-        {isNotMobile && <ImgSpining src="/spinner.png" alt="spinning-cheese" />}
+        {isNotMobile && <ImgSpining src='/spinner.png' alt='spinning-cheese' />}
       </Container>
       <Container
         style={{

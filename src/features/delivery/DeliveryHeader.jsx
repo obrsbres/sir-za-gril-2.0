@@ -36,13 +36,13 @@ function DeliveryHeader() {
   const [searchParams] = useSearchParams();
 
   const deliveryId = searchParams.get('sortBy') || 1;
-  if (!deliveries) return;
-  console.log(deliveries, deliveryId);
+  if (!deliveries || !deliveryId) return;
+
   const currentDelivery = deliveries.find(
-    (delivery) => delivery.id_of_delivery === Number(deliveryId)
+    (delivery) => delivery.id_of_delivery === Number(deliveryId),
   );
   const dateOfDelivery = currentDelivery.delvery_start_day;
-  console.log(dateOfDelivery);
+
   return (
     <StyledHeader>
       <StyledHeading>
@@ -50,11 +50,14 @@ function DeliveryHeader() {
       </StyledHeading>
       <ButtonGroup>
         <Modal>
-          <Modal.Open opens="NewCustomerForm">
-            <Button $size="small">Додај купца</Button>
+          <Modal.Open opens='NewCustomerForm'>
+            <Button $size='small'>Додај купца</Button>
           </Modal.Open>
-          <Modal.Window name="NewCustomerForm">
-            <NewCustomerForm currentDelivery={currentDelivery} />
+          <Modal.Window name='NewCustomerForm'>
+            <NewCustomerForm
+              currentDelivery={currentDelivery}
+              deliveryId={deliveryId}
+            />
           </Modal.Window>
         </Modal>
       </ButtonGroup>
