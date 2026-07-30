@@ -46,11 +46,11 @@ function AddressCell({ id, customerAddress }) {
     conflictBehavior: 'allow',
   });
 
-  function openMapAddress(address) {
-    const encodedAddress = encodeURIComponent(address);
-    const mapUrl = `https://google.com{encodedAddress}`;
-    window.open(mapUrl, '_blank');
-  }
+  // function openMapAddress(address) {
+  //   const encodedAddress = encodeURIComponent(address);
+  //   const mapUrl = `https://google.com{encodedAddress}`;
+  //   window.open(mapUrl, '_blank');
+  // }
   const link = `openMapAddress('${customerAddress}, Beograd 11000, Serbia')`;
   return (
     <StyledAddressCell tabIndex='0'>
@@ -79,9 +79,32 @@ function AddressCell({ id, customerAddress }) {
         )}
       </StyledAddress>
       <StyledLinkToAddr
-        onClick={() =>
-          openMapAddress(`${customerAddress},Beograd 11000, Serbia `)
-        }
+        onClick={() => {
+          const address = `${customerAddress}, Beograd 11000, Serbia`;
+          const encoded = encodeURIComponent(address);
+
+          // Check if the user is on iOS, Android mobile, or Desktop
+          const ua = navigator.userAgent;
+          const isIOS = /iPad|iPhone|iPod/.test(ua);
+          const isAndroid = /Android/.test(ua);
+
+          let url;
+          if (isIOS) {
+            url = `maps://?q=${encoded}`;
+          } else if (isAndroid) {
+            url = `geo:0,0?q=${encoded}`;
+          } else {
+            // Desktop or fallback: Universal Google Maps URL
+            url = `https://google.com{encoded}`;
+          }
+
+          // For desktop/fallback, open a new tab; for native schemes, redirect location
+          if (!isIOS && !isAndroid) {
+            window.open(url, '_blank');
+          } else {
+            window.location.href = url;
+          }
+        }}
       >
         <HiMapPin />
       </StyledLinkToAddr>
