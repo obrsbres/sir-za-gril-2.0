@@ -10,6 +10,7 @@ import InputChangeValue from '../tableUIs/InputChangeValue';
 
 import { useUpdateDelivery } from '../../deliveries/useUpdateDelivery';
 import { HiMapPin } from 'react-icons/hi2';
+import openMapFromString from '../../../utils/openMapFromString';
 
 const StyledAddressCell = styled.td`
   border-style: solid;
@@ -80,30 +81,7 @@ function AddressCell({ id, customerAddress }) {
       </StyledAddress>
       <StyledLinkToAddr
         onClick={() => {
-          const address = `${customerAddress}, Beograd 11000, Serbia`;
-          const encoded = encodeURIComponent(address);
-
-          // Check if the user is on iOS, Android mobile, or Desktop
-          const ua = navigator.userAgent;
-          const isIOS = /iPad|iPhone|iPod/.test(ua);
-          const isAndroid = /Android/.test(ua);
-
-          let url;
-          if (isIOS) {
-            url = `maps://?q=${encoded}`;
-          } else if (isAndroid) {
-            url = `geo:0,0?q=${encoded}`;
-          } else {
-            // Desktop or fallback: Universal Google Maps URL
-            url = `https://google.com{encoded}`;
-          }
-
-          // For desktop/fallback, open a new tab; for native schemes, redirect location
-          if (!isIOS && !isAndroid) {
-            window.open(url, '_blank');
-          } else {
-            window.location.href = url;
-          }
+          openMapFromString({ customerAddress });
         }}
       >
         <HiMapPin />
